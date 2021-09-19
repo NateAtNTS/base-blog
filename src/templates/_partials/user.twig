@@ -1,0 +1,126 @@
+<form class="mb-24" method="post">
+
+    <!-- First Name -->
+    <div class="mb-8">
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="firstname">First Name</label>
+        <input 
+            class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            id="firstname" 
+            type="text"             
+            name="firstname" 
+            v-model="firstname"
+            required
+        />
+    </div>
+
+    <!-- Last Name -->
+    <div class="mb-8">
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="lastname">Last Name</label>
+        <input 
+            class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            id="lastname" 
+            type="text"             
+            name="lastname" 
+            v-model="lastname"
+            required
+        />
+    </div>
+
+    <!-- Username -->
+    <div class="mb-8">
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="username">Username</label>
+        <div class="flex pa-0 ma-0" v-if="showUsernameChange">        
+            <input 
+                @keyup="validateUsername()"
+                class="shadow appearance-none border flex-auto py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"                 
+                id="username" 
+                type="text"             
+                name="username" 
+                v-model="usernameNew"
+                required
+            />        
+        
+            <button 
+                v-if="! usernameAvailable"                
+                class="ml-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-1 px-2"                 
+                type="button"
+                @click="checkIfUsernameExists()"
+                :disabled="! usernameValidated"                
+            >
+            Check Availability
+            </button>
+            <span  v-if="usernameAvailable" class="my-auto pl-4">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#168024"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19.77 5.03l1.4 1.4L8.43 19.17l-5.6-5.6 1.4-1.4 4.2 4.2L19.77 5.03m0-2.83L8.43 13.54l-4.2-4.2L0 13.57 8.43 22 24 6.43 19.77 2.2z"/></svg>
+            </span>            
+        </div>     
+        <p v-if="showUsernameChange" class="text-gray-600 text-xs italic">Username must be 6 or more characters</p>  
+        <div v-if="! showUsernameChange" class="flex pa-0 ma-0">
+            <div class="pr-8 my-auto" >%% username %%</div>
+            <button                 
+                class="ml-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-2 px-4" 
+                type="button"
+                @click="showUsernameChange=true"
+            >
+            Change Username
+            </button>
+        </div>         
+        
+    </div>
+
+    <!-- Email -->
+    <div class="mb-8">
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="email">Email</label>
+        <input 
+            class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            id="email" 
+            type="text"             
+            name="email"
+            v-model="email"
+        />
+        <p class="text-gray-600 text-xs italic">Your email is not required. If you provide an email, you will automatically receive a newsletter when the blog owner sends them.</p>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-8">
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="password">Password</label>
+        <input 
+            v-if="showChangePassword"
+            class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+            id="password" 
+            type="password"             
+            name="password"  
+            v-model="password"           
+        />
+            <button     
+                v-if="! showChangePassword"
+                class="flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-2 px-4" 
+                type="button"
+                @click="showChangePassword=true"
+            >
+            Change Password
+            </button>
+        
+
+        <p v-if="showChangePassword" class="text-gray-600 text-xs italic">Your password must be 8 characters long, with one capital, and at least one of the following: $, &, %</p>
+    </div>
+
+    <!-- Save & Reset Buttons -->
+    <div class="my-16">        
+        <div class="flex">                           
+        
+            <input 
+                class="mr-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-3 px-4" 
+                type="submit"
+                value="Save"
+            />
+            
+            <button 
+                class="mr-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-3 px-4" 
+                type="button">
+            Reset
+            </button>
+                        
+        </div>        
+    </div>
+
+</form>

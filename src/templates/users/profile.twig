@@ -1,0 +1,32 @@
+{% extends "_layouts/admin_layout.twig" %}
+
+{% block content %}
+<div class="flex justify-center" id="profilePage">
+    <div class="sm:w-full md:w-3/4 lg:w-1/2 pr-6 md:max-w-sm lg:max-w-md">
+        <div>
+            <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
+                <ol class="list-none flex text-grey-dark p-0">
+                    <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                    <li class="mx-2">/</li>
+                    <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
+                    <li class="mx-2">/</li> -->
+                    <li class="">User Profile</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="pb-4">
+            <h2 class="uppercase">User Profile</h2>
+        </div>
+        <div class="pb-8">
+            {% include "_partials/user.twig" %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block vuejs %}
+
+{% include "_partials/user_vuejs.twig" %}
+
+{% endblock %}

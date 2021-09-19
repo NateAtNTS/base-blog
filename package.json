@@ -1,0 +1,35 @@
+{
+  "name": "Hyii-core",
+  "version": "1.0.0",
+  "description": "A barebones web app built on top of Yii2.  Currently this includes user management and an install script accessible by `~/console install`.",
+  "license": "UNLICENSED",
+  "private": true,
+  "author": "Nate Bate (Harvest Media)",
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.2.0",
+    "balance-text": "^3.3.0",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "cross-env": "^7.0.2",
+    "foundation-sites": "^6.6.3",
+    "jquery": "^3.5.1",
+    "laravel-mix": "^5.0.4",
+    "lazysizes": "^5.2.0",
+    "magnific-popup": "^1.1.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "slick-carousel": "^1.8.1",
+    "tailwindcss": "^1.4.6",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "serve": "npm run watch",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "npm run production",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  }
+}
