@@ -42,12 +42,6 @@ class WebController extends Controller
             $this->data['devmode'] = false;
         }
 
-        if (Helper::getUser() == "") {
-            $this->data['loggedIn'] = false;
-        } else {
-            $this->data['loggedIn'] = true;
-        }
-
         $this->data['site_name'] = getenv("SITE_NAME");
 
         if ($this->template_dir == "app") {

@@ -2,7 +2,7 @@
 
 namespace bb\migrations;
 
-use bb\models\User;
+use bb\models\UserModel;
 use yii\db\Migration;
 use bb\models\Section;
 use bb\models\AssetFolderModel;
@@ -225,9 +225,10 @@ class Install extends Migration
             'photoId' => $this->integer(),
             'trashed' => "ENUM('Y','N','S') DEFAULT 'N'",
             'active' => "ENUM('Y','N','S') DEFAULT 'N'",
+            'approved' => "ENUM('Y','N','D') DEFAULT 'N'",
         ]);
 
-        $newUser =  new User ([
+        $newUser =  new UserModel ([
             "username" => $this->username,
             "firstName" => $this->firstName,
             "lastName" => $this->lastName,

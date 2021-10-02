@@ -3,6 +3,8 @@
 namespace bb\helpers;
 
 use Bb;
+use bb\helpers\HyiiHelper;
+use bb\models\UserModel;
 
 Class UserHelper {
 
@@ -26,6 +28,32 @@ Class UserHelper {
     public static function userId()
     {
         return Bb::$app->user->identity->id;
+    }
+    
+    
+    public static function loadUserInfo($id=-1)
+    {
+        $preppedUserData = [];
+
+        if ($id !== -1) {
+            $user = UserModel::findOne($id);
+        } else {
+            $user = HyiiHelper::getUser();
+        }
+
+        if ($user === null) {
+            return $user;
+        } else {
+            $preppedUserData['id'] = $user->id;
+            $preppedUserData['firstname'] = $user->firstName;
+            $preppedUserData['lastname'] = $user->lastName;
+            $preppedUserData['username'] = $user->username;
+            $preppedUserData['email'] = $user->email;
+            $preppedUserData['admin'] = $user->admin;
+            $preppedUserData['active'] = $user->active;
+
+            return $preppedUserData;
+        }
     }
 
 }

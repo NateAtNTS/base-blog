@@ -29,13 +29,12 @@ $config = [
                 'class' => yii\web\UrlRule::class
             ],
             'rules' => [
-                'api/<controller>/<action>/<id:\d+>' => 'api/<controller>/<action>',
-                'user/profile' => 'users/profile',
-                'user/check-username' => 'users/check-username',
+                'user/approval/<type:\w+>/<id:\d+>' => 'user/approval',
+                'user/update/<id:\d+>' => 'user/update',
             ]
         ],
         'user' => [
-            'identityClass' => bb\models\User::class,
+            'identityClass' => bb\models\UserModel::class,
             'enableSession' => false,
             'loginUrl' => null,
         ],

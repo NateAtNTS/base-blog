@@ -5,6 +5,7 @@ namespace bb\base;
 use Bb;
 use bb\helpers\HyiiHelper;
 use bb\base\WebController;
+use bb\helpers\UserHelper;
 
 class PrivateWebController extends WebController {
 
@@ -14,7 +15,9 @@ class PrivateWebController extends WebController {
 
         Bb::$app->user->enableSession = true;
 
-        if (HyiiHelper::getUser() == "") {
+        $this->data['user'] = $user = UserHelper::loadUserInfo();
+
+        if ($user == null) {
             
             if (Bb::$app->requestedRoute == 'user/check-username/') {                
 

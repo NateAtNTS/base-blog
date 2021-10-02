@@ -6,7 +6,7 @@ use Bb;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class User extends ActiveRecord implements IdentityInterface
+class UserModel extends ActiveRecord implements IdentityInterface
 {
 
     public $newPassword;
@@ -30,6 +30,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['password','default', 'value' => ''],
             ['username','default', 'value' => ''],
             ['active','default', 'value' => ''],
+            ['approved','default', 'value' => ''],
         ];
     }
 
@@ -77,8 +78,8 @@ class User extends ActiveRecord implements IdentityInterface
         implement these methods yet, you should update it accordingly (an example can be found in the guide under
         `Security` -> `Authentication`). Alternatively, you can simply return `null` in the `getAuthKey()` method to keep
         the old behavior (that is, no validation of active sessions). Applications that change the underlying `authKey` of
-        an authenticated identity, should now call `yii\web\User::switchIdentity()`, `yii\web\User::login()`
-        or `yii\web\User::logout()` to recreate the active session with the new `authKey`.
+        an authenticated identity, should now call `yii\web\UserModel::switchIdentity()`, `yii\web\UserModel::login()`
+        or `yii\web\UserModel::logout()` to recreate the active session with the new `authKey`.
 
          *
          */
@@ -98,16 +99,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function add()
     {
         $this->password = Bb::$app->getSecurity()->generatePasswordHash($this->password, 13);
-        $this->authKey = Bb::$app->getSecurity()->generateRandomString();
-        $this->active = 'Y';
-
-        if (($this->password == '') || ($this->email == '')) {
-            return false;
-        }
 
         if ($this->validate()) {
             $this->save();
-
             return true;
         } else {
             return false;
@@ -138,9 +132,12 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function getUsers() {
+    public static function getUsers($approved='Y') {
+
         return static::find()
-            ->select(['id', 'firstName','lastName', 'username', 'email', 'admin','active'])
+            ->select(['id', 'firstName','lastName', 'username', 'email', 'admin','active','approved'])
+            ->where("trashed = 'N'")
+            ->andWhere("approved = '$approved'")
             ->all();
     }
 }

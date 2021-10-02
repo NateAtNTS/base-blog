@@ -9,7 +9,7 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property User|null $user This property is read-only.
+ * @property UserModel|null $user This property is read-only.
  *
  */
 class LoginForm extends Model
@@ -46,14 +46,14 @@ class LoginForm extends Model
 
             if (getenv('API_LOGIN_ADMIN_ONLY') == 'Y') {
 
-                $user = User::find()
+                $user = UserModel::find()
                     ->where(['username' => $this->username])
                     ->andWhere(['active' => 'Y'])
                     ->andWhere(['trashed' => 'N'])
                     ->andWhere("admin <> 'N'")
                     ->one();
             } else {
-                $user = User::find()
+                $user = UserModel::find()
                     ->where(['username' => $this->username])
                     ->andWhere(['active' => 'Y'])
                     ->andWhere(['trashed' => 'N'])

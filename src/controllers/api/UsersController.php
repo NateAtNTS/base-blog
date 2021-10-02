@@ -65,9 +65,9 @@ class UsersController extends ApiController
 
     public function actionGetUser($id = -1)
     {
-        HyiiHelper::checkParam($id, -1, "Missing User Id");
+        HyiiHelper::checkParam($id, -1, "Missing UserModel Id");
         $user = User::findOne($id);
-        HyiiHelper::nullCheck($user, "No Matching User Found.");
+        HyiiHelper::nullCheck($user, "No Matching UserModel Found.");
         unset($user['password']);
         unset($user['authKey']);
         return $user;
