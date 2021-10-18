@@ -44,14 +44,40 @@ class UserController extends PrivateWebController
 
     public function actionUpdate($id)
     {
+        /**
+         * Check to see if there is a post and handle it if there is
+         */
+        if (HyiiHelper::isPost('id')) {
+            $currentUser = UserModel::findOne($id);
+            $updatedUser = HyiiHelper::getPost();
+            if (isset($updatedUser['password'])) {
+                if ($updatedUser['password'] != "") {
+                    $updatedUser['password'] = Bb::$app->getSecurity()->generatePasswordHash($updatedUser['password']);
+                } else {
+                    unset($updatedUser['password']);
+                }
+            }
+            $currentUser->attributes = $updatedUser;
+            $currentUser->save();
+            $this->data['userUpdated'] = true;
+
+        }
+
         $user = UserHelper::loadUserInfo($id);
+
+        //Bb::dd($user);
         if ($user !== null) {
             $this->data['user'] = $user;
             return $this->renderTemplate("users/update.twig", $this->data);
         } else {
+
+            /**
+             * Since the user was not found, redirect back to the user list
+             */
             $this->redirect("/user/list");
         }
     }
+
 
     public function actionCheckUsername()
     {
