@@ -13,7 +13,7 @@
 
 
     {# CSS #}
-    <link href="/bb-assets/css/theme.css{% if not craft.app.config.general.devMode %}?v={{now|date("U")}}{% endif %}" rel="stylesheet" type="text/css" media="screen">
+    <link href="/assets/css/theme.css{% if not craft.app.config.general.devMode %}?v={{now|date("U")}}{% endif %}" rel="stylesheet" type="text/css" media="screen">
 
 </head>
 
@@ -26,7 +26,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
-<script src="/bb-assets/js/theme.js{% if not craft.app.config.general.devMode %}?v={{now|date("U")}}{% endif %}" defer></script>
+<script src="/assets/js/theme.js{% if not craft.app.config.general.devMode %}?v={{now|date("U")}}{% endif %}" defer></script>
 
 {% block vuejs %}{% endblock %}
 
