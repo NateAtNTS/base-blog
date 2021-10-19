@@ -26,24 +26,10 @@ class UninstallController extends Controller
      */
     public function actionIndex()
     {
-
-        $userManagementResult = false;
-        if (HyiiHelper::isUserFunctionalityInstalled() === true) {
-            $userManagementUninstallMigration = new InstallUserManagement();
-            $userManagementResult = $userManagementUninstallMigration->safeDown();
-        }
-
-        $blogResult = false;
-        if (HyiiHelper::isBlogFunctionalityInstalled() === true) {
-            $blogMigration = new InstallBlog();
-            $blogResult = $blogMigration->safeDown();
-        }
-
         $uninstallMigration = new Install();
         $result = $uninstallMigration->safeDown();
 
-
-        if ($result && $userManagementResult && $blogResult) {
+        if ($result) {
             Bb::_console("Removal Done! ");
         } else {
             Bb::_console("Removal Failed!");

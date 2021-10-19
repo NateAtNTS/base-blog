@@ -235,7 +235,8 @@ class Install extends Migration
             "password" => $this->password,
             "admin" => $this->admin,
             "email" => $this->email,
-            'active' => $this->active,
+            'active' => 'Y',
+            'approved' => 'Y',
         ]);
 
         $newUser->add();
