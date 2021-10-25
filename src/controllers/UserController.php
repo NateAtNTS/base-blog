@@ -20,6 +20,8 @@ class UserController extends PrivateWebController
 
     public function actionAdd()
     {
+        UserHelper::logoutIfNotAdmin($this);
+
         $user = new UserModel();
 
         if (HyiiHelper::isPost("firstName")) {
@@ -44,6 +46,8 @@ class UserController extends PrivateWebController
 
     public function actionUpdate($id)
     {
+        UserHelper::logoutIfNotAdmin($this);
+
         /**
          * Check to see if there is a post and handle it if there is
          */
@@ -122,6 +126,8 @@ class UserController extends PrivateWebController
      */
     public function actionList()
     {
+        UserHelper::logoutIfNotAdmin($this);
+
         /**
          * Get unapproved users
          */
@@ -139,6 +145,8 @@ class UserController extends PrivateWebController
 
     public function actionApproval($type, $id)
     {
+        UserHelper::logoutIfNotAdmin($this);
+
         $user = UserModel::findOne($id);
 
         if ($user !== null) {
@@ -154,6 +162,7 @@ class UserController extends PrivateWebController
 
     private static function updateUser()
     {
+
         $user = new UserModel();
         if ($user->load(Bb::$app->request->post(), '') && $user->updateUser()) {
             return true;

@@ -9,8 +9,8 @@ use bb\helpers\HyiiHelper;
 class DashboardController extends PrivateWebController {
 
     public function actionIndex() {
-        //BaseApi::dd(Helper::getUser());
-        return $this->renderTemplate("dashboard/dashboard.twig");
+        //Bb::dd($this->data);
+        return $this->renderTemplate("dashboard/dashboard.twig", $this->data);
     }
 
 }

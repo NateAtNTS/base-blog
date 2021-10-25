@@ -56,6 +56,13 @@ Class UserHelper {
         }
     }
 
+    public static function logoutIfNotAdmin($obj)
+    {
+        if (! static::isAdmin()) {
+            $obj->redirect("/logout");
+        }
+    }
+
 }
 
 

@@ -6,12 +6,9 @@ var app = new Vue({
     },
     delimiters: ['%%','%%'],
     data: {
-        activeInstrument: 'Piano',
-        instruments: [            
-            'Your Profile',
-            'Settings',
-            'Logout'
-        ],
+        user: {
+            admin: '{{ user.admin }}'
+        },
         settingsMenu: [
             {
                 "Label" : "Your Profile",
@@ -33,7 +30,6 @@ var app = new Vue({
                 "Link" : "{{ site_url }}logout/",
                 "PermissionLevel" : "USER",
             },
-            
         ],
         showMenu: false,
 },

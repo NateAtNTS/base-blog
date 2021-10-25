@@ -33,10 +33,17 @@
             <div v-if='showMenu' @click='toggleShow' class="h-screen w-full absolute" style="background-color:transparent; z-index:1; left:0; top:0;">
             </div>
 			<div v-if='showMenu' class='menu' style="z-index:3;">
-				<div class='menu-item' v-for='(item,index) in settingsMenu' :key="'settingsMenu-'+index">
-                    <a class="text-black no-underline" :href='item.Link'>
-                        %% item.Label %%
-                    </a>    
+                <div v-for='(item,index) in settingsMenu' :key="'settingsMenu-'+index">
+                    <div class='menu-item' v-if="((item.PermissionLevel == 'ADMIN') && ((user.admin == 'Y') || (user.admin == 'S')))">
+                        <a class="text-black no-underline" :href='item.Link'>
+                            %% item.Label %%
+                        </a>
+                    </div>
+                    <div class='menu-item' v-else-if="item.PermissionLevel == 'USER'">
+                        <a class="text-black no-underline" :href='item.Link'>
+                            %% item.Label %%
+                        </a>
+                    </div>
                 </div>
 			</div>
         </div>
