@@ -31,6 +31,7 @@ $config = [
             'rules' => [
                 'user/approval/<type:\w+>/<id:\d+>' => 'user/approval',
                 'user/update/<id:\d+>' => 'user/update',
+                'post/view/<postId:\d+>' => 'post/view',
             ]
         ],
         'user' => [

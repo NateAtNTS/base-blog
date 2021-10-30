@@ -195,6 +195,16 @@ Class HyiiHelper {
         return $info['id'];
     }
 
+    public static function getSystemState()
+    {
+        return static::query()
+            ->select("*")
+            ->from("{{%info}}")
+            ->one();
+
+    }
+
+
     /**
      * Finds the general section in the sections table and returns the id of that row
      *

@@ -26,14 +26,21 @@ class UninstallController extends Controller
      */
     public function actionIndex()
     {
-        $uninstallMigration = new Install();
-        $result = $uninstallMigration->safeDown();
+        $tableSchema = Bb::$app->db->schema->getTableSchema('{{%info}}');
 
-        if ($result) {
-            Bb::_console("Removal Done! ");
+        if ($tableSchema !== null) {
+            $uninstallMigration = new Install();
+            $result = $uninstallMigration->safeDown();
+
+            if ($result) {
+                Bb::_console("Removal Done! ");
+            } else {
+                Bb::_console("Removal Failed!");
+            }
         } else {
-            Bb::_console("Removal Failed!");
+            Bb::_console("No Installation Found");
         }
+
     }
 
 }

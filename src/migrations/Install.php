@@ -4,7 +4,7 @@ namespace bb\migrations;
 
 use bb\models\UserModel;
 use yii\db\Migration;
-use bb\models\Section;
+use bb\models\SectionModel;
 use bb\models\AssetFolderModel;
 use bb\helpers\HyiiHelper;
 
@@ -107,10 +107,12 @@ class Install extends Migration
             'pendingDataState' => $this->bigInteger(),
             'userManagement' => "ENUM('Y','N') DEFAULT 'N'",
             'blog' => "ENUM('Y','N') DEFAULT 'N'",
+            'defaultSection' => $this->integer(),
         ]);
 
         $info = [
-            "version" => "1.0"
+            "version" => "1.0",
+            "defaultSection" => 1,
         ];
 
         $this->insert("{{%info}}", $info);
@@ -140,7 +142,7 @@ class Install extends Migration
             'trashed' => "ENUM('Y','N','S') DEFAULT 'N'",
         ]);
 
-        $section = new Section([
+        $section = new SectionModel([
             "title" => "General",
             "slug" => "general"
         ]);

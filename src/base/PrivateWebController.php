@@ -15,7 +15,7 @@ class PrivateWebController extends WebController {
 
         Bb::$app->user->enableSession = true;
 
-        $this->data['user'] = $user = UserHelper::loadUserInfo();
+        $this->data['LoggedInUser'] = $user = UserHelper::loadUserInfo();
 
         if ($user == null) {
             

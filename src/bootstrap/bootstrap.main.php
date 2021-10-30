@@ -79,23 +79,25 @@ $config = require CONFIG_FILE;
 /**
  * Check to see if there has been an update to the base blog styling if we are in the starter app
  */
-if (STARTER_APP === true) {
+if (defined('STARTER_APP') === true) {
+    if (STARTER_APP === true) {
 
-    $STARTER_STYLES = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'theme.css';
-    $STARTER_JS = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'theme.js';
+        $STARTER_STYLES = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'theme.css';
+        $STARTER_JS = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'theme.js';
 
-    $BASE_BLOG_PUBLIC = VENDOR_PATH . DIRECTORY_SEPARATOR . 'nateatnts' . DIRECTORY_SEPARATOR . 'base-blog' . DIRECTORY_SEPARATOR . 'public';
-    $BASE_BLOG_STYLES = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'theme.css';
-    $BASE_BLOG_JS = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'theme.js';
+        $BASE_BLOG_PUBLIC = VENDOR_PATH . DIRECTORY_SEPARATOR . 'nateatnts' . DIRECTORY_SEPARATOR . 'base-blog' . DIRECTORY_SEPARATOR . 'public';
+        $BASE_BLOG_STYLES = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'theme.css';
+        $BASE_BLOG_JS = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'theme.js';
 
-    if (sha1_file($STARTER_STYLES) != sha1_file($BASE_BLOG_STYLES)) {
-        unlink($STARTER_STYLES);
-        copy($BASE_BLOG_STYLES, $STARTER_STYLES);
-    }
+        if (sha1_file($STARTER_STYLES) != sha1_file($BASE_BLOG_STYLES)) {
+            unlink($STARTER_STYLES);
+            copy($BASE_BLOG_STYLES, $STARTER_STYLES);
+        }
 
-    if (sha1_file($STARTER_JS) != sha1_file($BASE_BLOG_JS)) {
-        unlink($STARTER_JS);
-        copy($BASE_BLOG_JS, $STARTER_JS);
+        if (sha1_file($STARTER_JS) != sha1_file($BASE_BLOG_JS)) {
+            unlink($STARTER_JS);
+            copy($BASE_BLOG_JS, $STARTER_JS);
+        }
     }
 }
 

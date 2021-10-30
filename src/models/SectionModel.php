@@ -4,9 +4,9 @@ namespace bb\models;
 
 use Bb;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+use bb\helpers\HyiiHelper;
 
-class Section extends ActiveRecord
+class SectionModel extends ActiveRecord
 {
 
     /**

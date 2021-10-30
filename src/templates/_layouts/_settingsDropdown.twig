@@ -7,7 +7,7 @@ var app = new Vue({
     delimiters: ['%%','%%'],
     data: {
         user: {
-            admin: '{{ user.admin }}'
+            admin: '{{ LoggedInUser.admin }}'
         },
         settingsMenu: [
             {
@@ -20,11 +20,11 @@ var app = new Vue({
                 "Link" : "{{ site_url }}user/list/",
                 "PermissionLevel" : "ADMIN",
             },
-            {
+            /*{
                 "Label" : "Settings",
                 "Link" : "{{ site_url }}settings/",
                 "PermissionLevel" : "ADMIN",
-            },
+            },*/
             {
                 "Label" : "Logout",
                 "Link" : "{{ site_url }}logout/",

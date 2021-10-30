@@ -88,7 +88,7 @@ class InstallController extends Controller
 
     private function userManagement()
     {
-        $this->username = $this->prompt('Username (lowercase letters, numbers and no spaces):', ['default' => 'admin', "validator" => [$this, 'validateUsername']]);
+        $this->username = $this->prompt('Username (lowercase letters, numbers and no spaces):', ['default' => 'administrator', "validator" => [$this, 'validateUsername']]);
         $this->firstName = $this->prompt("First Name:", ['required' => true, "validator" => [$this, 'validateName']]);
         $this->lastName = $this->prompt("Last Name:", ['required' => true, "validator" => [$this, 'validateName']]);
         $this->password = $this->_passwordPrompt();

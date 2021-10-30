@@ -72,7 +72,7 @@ class UserController extends PrivateWebController
         //Bb::dd($user);
         if ($user !== null) {
             $this->data['user'] = $user;
-            return $this->renderTemplate("users/update.twig", $this->data);
+            return $this->renderTemplate("users/view.twig", $this->data);
         } else {
 
             /**
