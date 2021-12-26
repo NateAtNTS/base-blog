@@ -31,7 +31,7 @@ Class UserHelper {
     }
     
     
-    public static function loadUserInfo($id=-1)
+    public static function  loadUserInfo($id=-1)
     {
         $preppedUserData = [];
 

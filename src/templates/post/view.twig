@@ -9,19 +9,18 @@
     <form class="mb-24" method="post">
 
         <!-- Post Title -->
-        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
-        <input
-                class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="title"
-                type="text"
-                name="title"
-                value="{{ post.title }}"
-                required
-        />
-
-        <div id="ContentBuilder">
-            <mc-wysiwyg v-model="content"></mc-wysiwyg>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
+            <input
+                    class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="title"
+                    type="text"
+                    name="title"
+                    value="{{ post.title }}"
+                    required
+            />
         </div>
+
 
     </form>
 
@@ -30,19 +29,5 @@
 
 
 {% block vuejs %}
-    <script src="https://unpkg.com/@mycure/vue-wysiwyg/dist/mc-wysiwyg.js"></script>
 
-    <script>
-        Vue.use(McWysiwyg.default);
-        var app = new Vue({
-            el: '#ContentBuilder',
-            delimiters: ['%%','%%'],
-            data: {
-                content: "<h1>TESTING!</h1>"
-            },
-            methods: {}
-
-        })
-
-    </script>
 {% endblock %}

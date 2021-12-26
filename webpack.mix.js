@@ -22,7 +22,7 @@ mix
     //.setResourceRoot('prefix/for/resource/locators')
 
     .browserSync({
-        browser: "google chrome",
+        browser: "Firefox Developer Edition",
         proxy: devProxy,
         files: [
             "src/templates/**/*.twig",

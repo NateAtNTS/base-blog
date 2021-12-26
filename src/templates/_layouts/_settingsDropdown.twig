@@ -1,53 +1,52 @@
 <script>
 
-var app = new Vue({
-    el: '#settingsDropdown',
-    components: {    
-    },
-    delimiters: ['%%','%%'],
-    data: {
-        user: {
-            admin: '{{ LoggedInUser.admin }}'
+    var app = new Vue({
+        el: '#settingsDropdown',
+        components: {
         },
-        settingsMenu: [
-            {
-                "Label" : "Your Profile",
-                "Link" : "{{ site_url }}user/profile/",
-                "PermissionLevel" : "USER",
+        delimiters: ['%%','%%'],
+        data: {
+            user: {
+                admin: '{{ LoggedInUser.admin }}'
             },
-            {
-                "Label" : "Manage Users",
-                "Link" : "{{ site_url }}user/list/",
-                "PermissionLevel" : "ADMIN",
-            },
-            /*{
-                "Label" : "Settings",
-                "Link" : "{{ site_url }}settings/",
+            settingsMenu: [
+                {
+                    "Label" : "Your Profile",
+                    "Link" : "{{ site_url }}user/profile/",
+                    "PermissionLevel" : "USER",
+                },
+                {
+                    "Label" : "Manage Users",
+                    "Link" : "{{ site_url }}user/list/",
+                    "PermissionLevel" : "ADMIN",
+                },
+                /*{
+                    "Label" : "Settings",
+                    "Link" : "{{ site_url }}settings/",
                 "PermissionLevel" : "ADMIN",
             },*/
-            {
-                "Label" : "Logout",
-                "Link" : "{{ site_url }}logout/",
-                "PermissionLevel" : "USER",
+                {
+                    "Label" : "Logout",
+                    "Link" : "{{ site_url }}logout/",
+                    "PermissionLevel" : "USER",
+                },
+            ],
+            showMenu: false,
+        },
+        methods: {
+            changeInstrument: function(instrument) {
+                this.activeInstrument = instrument;
             },
-        ],
-        showMenu: false,
-},
-methods: {
-    changeInstrument: function(instrument) {
-        this.activeInstrument = instrument;
-    },
-    toggleShow: function() {    
-        this.showMenu = !this.showMenu;
-    },
-    itemClicked: function(item) {
-        this.toggleShow();
-        this.onClick(item);
-    }
-}
-        
-})
+            toggleShow: function() {
+                this.showMenu = !this.showMenu;
+            },
+            itemClicked: function(item) {
+                this.toggleShow();
+                this.onClick(item);
+            }
+        }
 
+    })
 </script>
 
 <style>

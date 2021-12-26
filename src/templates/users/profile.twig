@@ -22,7 +22,7 @@
             </div>
         {% endif %}
         <div class="pb-4 {% if userUpdated == true %}mt-8{% endif %}">
-            <h2 class="uppercase">User Profile</h2>
+            <div class="font-bold text-2xl uppercase">User Profile</div>
         </div>
         <div class="pb-8">
             <form class="mb-24" method="post" id="userUpdateForm">
@@ -160,7 +160,7 @@
                         </button>
                     </div>
                     <p v-if="((!passwordValidated)&&(password!==''))" class="text-red-600 text-xs italic">Please enter a valid password or leave it blank.</p>
-                    <p v-if="((!usernameValidated)&&(usernameNew!==''))" class="text-red-600 text-xs italic">Please enter a valid username. To revert to your current username you can press the reset button.</p>
+                    <p v-if="((! usernameValidated) && (usernameNew != usernameOriginal))" class="text-red-600 text-xs italic">Please enter a valid username.</p>
                     <p v-if="showCheckUsernameBtn && showUsernameChange" class="text-red-600 text-xs italic">Please check your username by clicking "Check Availability"</p>
                 </div>
 

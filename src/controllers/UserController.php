@@ -72,7 +72,7 @@ class UserController extends PrivateWebController
         //Bb::dd($user);
         if ($user !== null) {
             $this->data['user'] = $user;
-            return $this->renderTemplate("users/view.twig", $this->data);
+            return $this->renderTemplate("users/update.twig", $this->data);
         } else {
 
             /**
@@ -105,7 +105,12 @@ class UserController extends PrivateWebController
 
     public function actionProfile() 
     {
+
+        //Bb::dd($this->data);
+
         if (HyiiHelper::isPost("firstName")) {
+            $post = HyiiHelper::getPost();
+            $id = $post['id'];
             $status = static::updateUser();
             $this->data['userUpdated'] = true;
             if ($status) {
@@ -114,8 +119,10 @@ class UserController extends PrivateWebController
                 $this->data['userUpdateStatus'] = false;
             }
 
-            $this->data['user'] = UserHelper::loadUserInfo($this->data['user']['id']);
+            $this->data['user'] = UserHelper::loadUserInfo($id);
 
+        } else {
+            $this->data['user'] = UserHelper::loadUserInfo();
         }
 
         return $this->renderTemplate("users/profile.twig", $this->data);
