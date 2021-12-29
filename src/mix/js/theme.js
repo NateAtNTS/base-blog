@@ -1,14 +1,15 @@
 import Vue from 'vue'
 
-if(document.getElementById("editor")) {
+if(document.getElementById("nothing")) {
     let vuejsResponses = new Vue({
-        el: "#editor",
+        el: "#nothing",
         delimiters: ["${", "}"],
         data: {
             myHTML: `you have arrived!!`
         },
         methods: {},
         created() {
+
             },
         destroyed() {
         },
@@ -16,5 +17,11 @@ if(document.getElementById("editor")) {
         },
     });
 } // if div exists
+
+
+
+
+
+
 
 

@@ -12644,9 +12644,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 
-if (document.getElementById("editor")) {
+if (document.getElementById("nothing")) {
   var vuejsResponses = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
-    el: "#editor",
+    el: "#nothing",
     delimiters: ["${", "}"],
     data: {
       myHTML: "you have arrived!!"
