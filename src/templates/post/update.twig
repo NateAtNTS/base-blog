@@ -1,0 +1,104 @@
+{% extends "_layouts/admin_layout.twig" %}
+
+{% block content %}
+
+    {% include "_partials/adminPageOpen.twig" %}
+
+    <div>
+        <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
+            <ol class="list-none flex text-grey-dark p-0">
+                <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                <li class="mx-2">/</li>
+                <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
+                <li class="mx-2">/</li> -->
+                <li class="">Update Post</li>
+            </ol>
+        </nav>
+    </div>
+
+    {% set adminPageTitle = "Update Post" %}
+    <div class="mb-4">{% include"_partials/adminPageHeading.twig" %}</div>
+
+    <div id="updatePost">
+        <form class="" method="post">
+
+            <!-- Post Title -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
+                <input
+                        class="{% include "_styles/textBox.twig" %}"
+                        id="title"
+                        type="text"
+                        name="title"
+                        value="{{ post.title }}"
+                        required
+                />
+            </div>
+
+
+        </form>
+
+        <div
+            v-for="(elementId, index) in elementsOrder"
+            :key="index"
+            class="my-4"
+        >
+            <div
+                    v-if="pageElements[elementId].type === 'heading'"
+            >
+                <input v-model="pageElements[elementId].data" type="text" class="{% include "_styles/textBox.twig" %}" />
+            </div>
+        </div>
+
+        {% include "_partials/addElementBar.twig" %}
+    </div>
+
+    {% include "_partials/adminPageClose.twig" %}
+{% endblock %}
+
+
+{% block vuejs %}
+
+    <script>
+        let updatePostApp = new Vue({
+            name: 'updatePost',
+            el: '#updatePost',
+            delimiters: ['%%','%%'],
+            computed: {
+                quillRender: function() {
+                    this.elementsOrder.forEach((element) => {
+                        if (this.pageElements[element].type === "editor") {
+                            this.pageElements[element].render = true
+                            let elementId = 'editor-' + this.pageElements[element].order
+
+                        }
+                    })
+                }
+            },
+            data: {
+                pageElements: {},
+                objectIndex: 0,
+                elementsOrder : [],
+                title: ``,
+            },
+            methods: {
+                createElement(type) {
+                    this.$set(this.pageElements, this.objectIndex, {
+                        type: type,
+                        data: this.objectIndex,
+                        elementId: this.objectIndex,
+                        order : this.objectIndex,
+                        render: false,
+                    })
+                    this.elementsOrder.push(this.objectIndex)
+                    this.objectIndex++
+                },
+            },
+            created() {},
+        })
+
+    </script>
+
+
+
+{% endblock %}

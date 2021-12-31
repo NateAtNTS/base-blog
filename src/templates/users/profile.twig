@@ -22,7 +22,7 @@
             </div>
         {% endif %}
         <div class="pb-4 {% if userUpdated == true %}mt-8{% endif %}">
-            <div class="font-bold text-2xl uppercase">User Profile</div>
+            <div class="{% include "_styles/mainHeading.twig" %}">User Profile</div>
         </div>
         <div class="pb-8">
             <form class="mb-24" method="post" id="userUpdateForm">
