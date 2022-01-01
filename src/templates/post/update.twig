@@ -38,16 +38,21 @@
 
         </form>
 
-        <div
-            v-for="(elementId, index) in elementsOrder"
-            :key="index"
-            class="my-4"
-        >
-            <div
-                    v-if="pageElements[elementId].type === 'heading'"
-            >
+        <div v-for="(elementId, index) in elementsOrder" :key="index" class="my-4">
+            <div v-if="pageElements[elementId].type === 'heading'">
                 <input v-model="pageElements[elementId].data" type="text" class="{% include "_styles/textBox.twig" %}" />
             </div>
+            <div v-if="pageElements[elementId].type === 'editor'">
+                <local-quill-editor
+                        class="bg-white"
+                        v-model="pageElements[elementId].data"
+                        ref="quillEditorB"
+                        :options="editorOption"
+                >
+
+                </local-quill-editor>
+            </div>
+
         </div>
 
         {% include "_partials/addElementBar.twig" %}
@@ -59,23 +64,37 @@
 
 {% block vuejs %}
 
+    <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-quill-editor@3.0.4/dist/vue-quill-editor.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.4/quill.core.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.4/quill.bubble.css" rel="stylesheet">
+
+
     <script>
         let updatePostApp = new Vue({
             name: 'updatePost',
             el: '#updatePost',
             delimiters: ['%%','%%'],
-            computed: {
-                quillRender: function() {
-                    this.elementsOrder.forEach((element) => {
-                        if (this.pageElements[element].type === "editor") {
-                            this.pageElements[element].render = true
-                            let elementId = 'editor-' + this.pageElements[element].order
-
-                        }
-                    })
-                }
+            components: {
+                LocalQuillEditor: VueQuillEditor.quillEditor
             },
+            computed: {},
             data: {
+                editorOption: {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                            [{ 'color': [] }, { 'background': [] }],
+                            [{ 'font': [] }],
+                            [{ 'align': [] }],
+                            ['link'],
+                        ]
+                    },
+                },
                 pageElements: {},
                 objectIndex: 0,
                 elementsOrder : [],
@@ -85,7 +104,7 @@
                 createElement(type) {
                     this.$set(this.pageElements, this.objectIndex, {
                         type: type,
-                        data: this.objectIndex,
+                        data: ``,
                         elementId: this.objectIndex,
                         order : this.objectIndex,
                         render: false,
