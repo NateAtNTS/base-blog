@@ -32,6 +32,7 @@ $config = [
                 'user/approval/<type:\w+>/<id:\d+>' => 'user/approval',
                 'user/update/<id:\d+>' => 'user/update',
                 'post/update/<postId:\d+>' => 'post/update',
+                'api/post/update/<postId:\d+>' => 'api/posts/update',
             ]
         ],
         'user' => [

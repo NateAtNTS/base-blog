@@ -13,10 +13,23 @@
             </div>
         </a>
 
-        {# Create Page #}
     </div>
 
-    {% include "_partials/quill-vue.twig" %}
+    {% include "_partials/adminPageOpen.twig" %}
+    <div class="flex flex-col justify-center mt-8">
+        {% if posts | length %}
+            {% for p in posts %}
+                <div>
+                    <a href="{{ site_url }}post/update/{{ p.id }}">
+                        {{ p.title }}
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    {% include "_partials/adminPageClose.twig" %}
+
+    {# {% include "_partials/quill-vue.twig" %} #}
 
 {% endblock %}
 

@@ -4,8 +4,10 @@ namespace bb\controllers\api;
 
 use Bb;
 use bb\helpers\HyiiHelper;
+use bb\helpers\UserHelper;
 use bb\models\api\Post;
 use bb\base\ApiController;
+use bb\models\PostModel;
 
 class PostsController extends ApiController
 {
@@ -14,6 +16,8 @@ class PostsController extends ApiController
     {
         parent::__construct($id, $module, $config);
     }
+
+    /*
 
     public function actionIndex()
     {
@@ -50,6 +54,44 @@ class PostsController extends ApiController
             "success" => true,
             "title" => $post->title,
         ];
+    }
+
+
+    */
+
+    /**
+     * The vuejs web front end update post uses this api function; however, this api function turns on sessions for this
+     * call and makes sure the user is logged in.
+     *
+     * @param $postId
+     * @return array
+     */
+    public function actionUpdate($postId) {
+
+        Bb::$app->user->enableSession = true;
+        $user = UserHelper::loadUserInfo();
+
+        if ($user == null) {
+            return [
+                "success" => false,
+                "action" => "logout",
+                "user" => $user
+            ];
+        } else {
+
+            if (PostModel::updatePost($postId)) {
+                return [
+                    "success" => true,
+                ];
+            } else {
+                return [
+                    "success" => false,
+                    "message" => "Update Failed"
+                ];
+            }
+
+        }
+
     }
 
 }
