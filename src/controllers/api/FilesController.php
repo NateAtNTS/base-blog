@@ -4,12 +4,8 @@ namespace bb\controllers\api;
 
 use Bb;
 use bb\base\ApiController;
-use bb\helpers\HyiiHelper;
-use bb\models\api\FileModel;
-use yii\filters\auth\HttpBearerAuth;
-use yii\filters\ContentNegotiator;
-use yii\web\Response;
 use yii\web\UploadedFile;
+use bb\models\api\FileModel;
 
 class FilesController extends ApiController
 {
@@ -21,46 +17,25 @@ class FilesController extends ApiController
 
     public function actionUpload()
     {
-
         if (Bb::$app->request->isPost) {
-            $model = new FileModel();
 
+            $model = new FileModel();
             $model->imageFile = UploadedFile::getInstanceByName('fileUpload');
 
-            // BaseApi::dd($model->imageFile);
 
-            if ($model->upload()) {
-                return [
-                    "success" => true
-                ];
-                //echo "file uploaded Successfully.";
-                //exit;
+            $status = $model->upload();
+
+            if ($status['success'] == true) {
+                return [ "success" => true ];
             } else {
-                return [
-                    "success" => false
-                ];
-                //echo "there was a problem uploading the file";
-                //exit;
-            }
+                return [ "success" => false, "message" => $status["message"]];
+            } // if model upload
 
         } else {
-            echo '
-<!DOCTYPE html>
-<html>
-<body>
+            return [ "success" => false, "message" => "No post"];
+        } // if bb app request
 
-<form action="https://hyii.test/api/files/upload/" method="post" enctype="multipart/form-data">
-  Select image to upload:
-  <input type="file" name="fileUpload" id="fileToUpload">
-  <input type="submit" value="Upload Image" name="submit">
-</form>
+        return true;
+    } // function
 
-</body>
-</html>
-';
-            exit;
-        }
-
-    }
-
-}
+} // class

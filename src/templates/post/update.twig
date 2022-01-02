@@ -25,74 +25,44 @@
             </div>
             <div class="flex-auto"></div>
             <div>
-                <a class="px-4 py-2 bg-blue-400 font-bold cursor-pointer" @click.prevent="savePost()">Save</a>
+                <a class="{% include "_styles/blueButton.twig" %}" @click.prevent="savePost()">Save</a>
             </div>
         </div>
 
-        <form class="" method="post">
 
-            <!-- Post Title -->
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
-                <input
-                        class="{% include "_styles/textBox.twig" %}"
-                        id="title"
-                        type="text"
-                        name="title"
-                        v-model="title"
-                        required
-                />
+
+        <!-- Post Title -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
+            <input
+                    class="{% include "_styles/textBox.twig" %}"
+                    id="title"
+                    type="text"
+                    name="title"
+                    v-model="title"
+                    required
+            />
+        </div>
+
+
+        <div v-for="(elementId, index) in elementsOrder" :key="index" class="my-4">
+            <div v-if="pageElements[elementId].type === 'heading'">
+                {% set elementType = "Heading" %}
+                {% include "_partials/postElement.twig" %}
+            </div>
+            <div v-if="pageElements[elementId].type === 'editor'">
+                {% set elementType = "Editor" %}
+                {% include "_partials/postElement.twig" %}
             </div>
 
-
-            <div v-for="(elementId, index) in elementsOrder" :key="index" class="my-4">
-                <div v-if="pageElements[elementId].type === 'heading'">
-                    <div class="flex flex-col px-2 pb-2 bg-gray-400 rounded-sm">
-                        <div class="flex text-gray-500 text-sm uppercase">
-                            <div >Heading</div>
-                            <div class="flex-auto"></div>
-                            <div class="px-2 flex">
-                                <div class="px-2 cursor-pointer">
-                                    <button :disabled="index === 0" @click.prevent="swapElements(index-1, index)">UP</button>
-                                </div>
-                                <div class="px-2 cursor-pointer">
-                                    <button :disabled="index === pageElements.length-1" @click.prevent="swapElements(index, index+1)" >DOWN</button>
-                                </div>
-                            </div>
-                        </div>
-                        <input v-model="pageElements[elementId].data" type="text" class="{% include "_styles/textBox.twig" %}" />
-                    </div>
-                </div>
-                <div v-if="pageElements[elementId].type === 'editor'">
-                    <div class="flex flex-col px-2 pb-2 bg-gray-400 rounded-sm">
-                        <div class="flex text-gray-500 text-sm uppercase">
-                            <div >Editor</div>
-                            <div class="flex-auto"></div>
-                            <div class="px-2 flex">
-                                <div class="px-2 cursor-pointer">
-                                    <button :disabled="index === 0" @click.prevent="swapElements(index-1, index)">UP</button>
-                                </div>
-                                <div class="px-2 cursor-pointer">
-                                    <button :disabled="index === pageElements.length-1" @click.prevent="swapElements(index, index+1)" >DOWN</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <local-quill-editor
-                                class="bg-white"
-                                v-model="pageElements[elementId].data"
-                                ref="quillEditorB"
-                                :options="editorOption"
-                        >
-
-                        </local-quill-editor>
-
-                    </div>
-                </div>
-
+            <div v-if="pageElements[elementId].type === 'picture'">
+                {% set elementType = "Picture" %}
+                {% include "_partials/postElement.twig" %}
             </div>
 
-        </form>
+        </div>
+
+
 
 
 
@@ -123,6 +93,7 @@
             },
             computed: {},
             data: {
+                file: ``,
                 editorOption: {
                     theme: 'snow',
                     modules: {
@@ -137,18 +108,7 @@
                         ]
                     },
                 },
-                pageElements: {
-                    {% if post.elements | length %}{% for e in post.elements %}
-                        {{ loop.index-1 }} : {
-                        id: {{ e.id }},
-                        post: {{ post.id }},
-                        type: `{{ e.type }}`,
-                            elementId: {{ e.order }},
-                        order: {{ e.order }},
-                        data: `{{ e.data }}`,
-                    } {% if not loop.last %},{% endif %}
-                    {% endfor %}{% endif %}
-                },
+                pageElements: { {% include "_partials/pageElementsTwigLoop.twig" %} },
                 objectIndex: {{ post.elements | length }},
                 elementsOrder : [{% if post.elements | length %}{% for e in post.elements %}{{ e.order }} {% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
                 title: `{{ post.title }}`,
@@ -186,12 +146,35 @@
                         elements: elements
                     }
                     console.log("post payload");
-                    console.log(postPayload)
+                    console.log(JSON.stringify(postPayload))
+
                     axios.post("{{ site_url }}api/post/update/{{ post.id }}", postPayload).then(savePostResponse => {
                         if (savePostResponse.data.success === true) {
                             location.href = "{{ site_url }}dashboard";
                         }
                     })
+                }, // save post
+                handleFileUpload(e) {
+                    this.file = e.target.files[0];
+                    let formData = new FormData();
+                    formData.append('fileUpload', this.file);
+                    let header = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                    axios.post( '{{ site_url }}api/files/upload', formData, header
+                    ).then( response => {
+                        if (response.data.success === true) {
+                            console.log('success');
+                        } else {
+                            console.log("failure: " + response.data.message)
+                        }
+
+                    })
+                    .catch(function(){
+                        console.log('FAILURE!!');
+                    });
                 },
             },
             created() {},

@@ -1,0 +1,42 @@
+<div class="flex flex-col px-2 pb-2 bg-gray-400 rounded-sm">
+    <div class="flex text-gray-500 text-sm uppercase">
+        <div >{{ elementType }}</div>
+        <div class="flex-auto"></div>
+        <div class="px-2 flex">
+            <div class="px-2 cursor-pointer">
+                <button :disabled="index === 0" @click.prevent="swapElements(index-1, index)">UP</button>
+            </div>
+            <div class="px-2 cursor-pointer">
+                <button :disabled="index === pageElements.length-1" @click.prevent="swapElements(index, index+1)" >DOWN</button>
+            </div>
+        </div>
+    </div>
+
+    {% if elementType == "Heading" %}
+        <input v-model="pageElements[elementId].data" type="text" class="{% include "_styles/textBox.twig" %}" />
+
+    {% elseif elementType == "Editor" %}
+        <local-quill-editor
+                class="bg-white"
+                v-model="pageElements[elementId].data"
+                ref="quillEditorB"
+                :options="editorOption"
+        >
+
+        </local-quill-editor>
+
+    {% elseif elementType == "Picture" %}
+
+        <div class="w-full h-auto flex p-8">
+            <div class="m-auto flex flex-col">
+                <div class="mx-auto">
+                    <label class="cursor-pointer {% include "_styles/blueButton.twig" %}">
+                        Select File to Upload.
+                        <input class="ml-0 md:ml-4 hidden" type="file"  name="fileUpload" id="fileUpload" @change="handleFileUpload( $event )"/>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</div>

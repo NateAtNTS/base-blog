@@ -5,6 +5,8 @@ namespace bb\models\api;
 use Bb;
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 class FileModel extends Model
 {
@@ -27,21 +29,34 @@ class FileModel extends Model
     public function rules():array
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+            [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 
 
-    public function upload():bool
+    public function upload():array
     {
-        //echo $this->publicAssetPath;
         if ($this->validate()) {
-            $filename = $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $filename = $this->imageFile->baseName . '_temp.' . $this->imageFile->extension;
+            $filenameFinal = $this->imageFile->baseName . '_1200x1200.' . $this->imageFile->extension;
+            $fullFilePath = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filename;
+            $fullFilePathFinal = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filenameFinal;
 
-            $this->imageFile->saveAs($this->privateAssetPath . DIRECTORY_SEPARATOR . $filename);
-            return true;
+            $this->imageFile->saveAs($fullFilePath);
+
+            $image = Image::getImagine();
+
+            $image
+                ->open($fullFilePath)
+                ->thumbnail(new Box(1200, 1200))
+                ->save($fullFilePathFinal, ['quality' => 70]);
+
+            unlink($fullFilePath);
+            return [ "success" => true, "message" => ""];
         } else {
-            return false;
+            return [ "success" => false, "message" => "Failure to validate"];
         }
-    }
-}
+
+    } // function
+
+} // class

@@ -2,29 +2,46 @@
 
 {% block content %}
 
-    <div class="flex justify-center">
+    {% include "_partials/adminPageOpen.twig" %}
 
-
-        {# Create Post #}
-        <a href="{{ site_url }}create/post" class="m-4 text-black no-underline">
-            <div class="shadow-md bg-white rounded-md p-8 text-center hover:bg-gray-100">
-                <svg class="mx-auto mb-2 fill-current hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 24 24" width="32px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-                <div>Create Post</div>
-            </div>
-        </a>
-
+    <div>
+        <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
+            <ol class="list-none flex text-grey-dark p-0">
+                <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                <li class="mx-2">/</li>
+                <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
+                <li class="mx-2">/</li> -->
+                <li class="">Posts List</li>
+            </ol>
+        </nav>
     </div>
 
-    {% include "_partials/adminPageOpen.twig" %}
-    <div class="flex flex-col justify-center mt-8">
+    <h2 class="{% include "_styles/mainHeading.twig" %}">Posts</h2>
+
+    <div class="flex flex-col justify-center mt-8 bg-white">
         {% if posts | length %}
             {% for p in posts %}
-                <div>
-                    <a href="{{ site_url }}post/update/{{ p.id }}">
-                        {{ p.title }}
-                    </a>
-                </div>
+                <a href="{{ site_url }}post/update/{{ p.id }}" class="font-semibold my-auto">
+                    <div class="{% if not loop.last %}border-b-solid border-b border-blue-100{% endif %} px-2 h-16 flex {% if loop.index is even %}bg-blue-100{% endif %} cursor-pointer hover:bg-gray-300">
+                        <div class="my-auto">
+
+                                {{ p.title }}
+
+                            <p class="text-gray-600 italic font-normal">{{ p.date | date('F j, Y • h:i A') }}</p>
+                        </div>
+                    </div>
+
+                </a>
             {% endfor %}
+
+        {% else %}
+
+        <div class="px-2 h-16 flex">
+            <div class="m-auto">
+                There are no posts to display.
+            </div>
+        </div>
+
         {% endif %}
     </div>
     {% include "_partials/adminPageClose.twig" %}

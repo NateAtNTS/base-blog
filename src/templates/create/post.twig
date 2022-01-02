@@ -2,36 +2,42 @@
 
 {% block content %}
 
-    <div class="flex w-full justify-center ">
-        <div class="w-full sm:w-full md:w-3/4 lg:w-1/2 pr-2 sm:max-w-full md:max-w-sm lg:max-w-md">
-            <div class="flex">
-                <div class="pb-0 {% if userUpdated == true %}mt-8{% endif %}">
-                </div>
-            </div>
-            <h2 class="{% include "_styles/mainHeading.twig" %}">Create Post</h2>
+    {% include "_partials/adminPageOpen.twig" %}
 
-            <form class="mb-24" method="post">
-
-                {# Will need to add a section select sometime soon #}
-                <p class="mb-8">Blog: {{ section.title }}</p>
-                <input type="hidden" name="section" value="{{ section.id }}" />
-
-                <!-- Post Title -->
-                <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
-                <input
-                        class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="title"
-                        type="text"
-                        name="title"
-                        required
-                />
-
-                <input type="submit" value="Create Post" class="mt-4  mr-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-3 px-4"/>
-
-            </form>
-
-        </div>
+    <div>
+        <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
+            <ol class="list-none flex text-grey-dark p-0">
+                <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                <li class="mx-2">/</li>
+                <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
+                <li class="mx-2">/</li> -->
+                <li class="">Create Post</li>
+            </ol>
+        </nav>
     </div>
+
+    <h2 class="{% include "_styles/mainHeading.twig" %}">Create Post</h2>
+
+    <form class="mb-24" method="post">
+
+        {# Will need to add a section select sometime soon #}
+        <p class="mb-8">Blog: {{ section.title }}</p>
+        <input type="hidden" name="section" value="{{ section.id }}" />
+
+        <!-- Post Title -->
+        <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="title">Title</label>
+        <input
+                class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="title"
+                type="text"
+                name="title"
+                required
+        />
+
+        <input type="submit" value="Create Post" class="mt-4  mr-2 flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-none text-sm text-white py-3 px-4"/>
+
+    </form>
+    {% include "_partials/adminPageClose.twig" %}
 
 {% endblock %}
 

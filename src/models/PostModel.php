@@ -50,7 +50,7 @@ class PostModel extends ActiveRecord {
                     $newE->type = $e['type'];
                     $newE->save();
                 } else {
-                    $currentE = PostElementsModel::findOne($e[id]);
+                    $currentE = PostElementsModel::findOne($e['id']);
                     if ($currentE != null) {
                         $currentE->post = $e['post'];
                         $currentE->order = $e['order'];
