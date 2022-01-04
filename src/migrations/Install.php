@@ -199,7 +199,7 @@ class Install extends Migration
     {
         $this->createTable("{{%assets}}", [
             'id' => $this->primaryKey(),
-            'section' => $this->integer(),
+            'post' => $this->integer(),
             'folder' => $this->integer(),
             'label' => $this->string(225),
             'description' => $this->text(),

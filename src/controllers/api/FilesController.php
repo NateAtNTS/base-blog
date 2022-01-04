@@ -26,7 +26,7 @@ class FilesController extends ApiController
             $status = $model->upload();
 
             if ($status['success'] == true) {
-                return [ "success" => true ];
+                return [ "success" => true, "assetId" => $status['assetId'] ];
             } else {
                 return [ "success" => false, "message" => $status["message"]];
             } // if model upload

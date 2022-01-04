@@ -112,6 +112,7 @@
                 objectIndex: {{ post.elements | length }},
                 elementsOrder : [{% if post.elements | length %}{% for e in post.elements %}{{ e.order }} {% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
                 title: `{{ post.title }}`,
+                postId: {{ post.id }},
             },
             methods: {
                 createElement(type) {
@@ -154,10 +155,11 @@
                         }
                     })
                 }, // save post
-                handleFileUpload(e) {
+                handleFileUpload(e, elementId) {
                     this.file = e.target.files[0];
                     let formData = new FormData();
                     formData.append('fileUpload', this.file);
+                    formData.append('postId', this.postId);
                     let header = {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -167,6 +169,7 @@
                     ).then( response => {
                         if (response.data.success === true) {
                             console.log('success');
+                            console.log("assetId: " + response.data.assetId)
                         } else {
                             console.log("failure: " + response.data.message)
                         }

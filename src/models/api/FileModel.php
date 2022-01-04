@@ -3,10 +3,12 @@
 namespace bb\models\api;
 
 use Bb;
+use bb\helpers\HyiiHelper;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
 use Imagine\Image\Box;
+use bb\models\AssetModel;
 
 class FileModel extends Model
 {
@@ -37,22 +39,61 @@ class FileModel extends Model
     public function upload():array
     {
         if ($this->validate()) {
-            $filename = $this->imageFile->baseName . '_temp.' . $this->imageFile->extension;
-            $filenameFinal = $this->imageFile->baseName . '_1200x1200.' . $this->imageFile->extension;
-            $fullFilePath = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filename;
-            $fullFilePathFinal = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filenameFinal;
 
+            $asset = new AssetModel();
+            $post = HyiiHelper::getPost();
+
+            /**
+             * Build the filename and path
+             */
+            $filename = $this->imageFile->baseName . '_temp.' . $this->imageFile->extension;
+            $extension = $this->imageFile->extension;
+            $fullFilePath = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filename;
+
+            /**
+             * Save the file that was uploaded
+             */
             $this->imageFile->saveAs($fullFilePath);
 
-            $image = Image::getImagine();
+            /**
+             * Prep the file extension
+             */
+            if (($extension == ".jpeg") || ($extension == ".JPEG") || ($extension == ".JPG")) {
+                $extension = "jpg";
+            }
+            switch ($extension) {
+                case ".jpg" : $extension = "jpg"; break;
+                case ".png" : $extension = "png"; break;
+            }
+            $asset->type = $extension;
 
+            /**
+             * Get the post id
+             */
+            if (isset($post['postId'])) {
+                $asset->post = $post['postId'];
+            }
+
+            /**
+             * Save the asset and get the id
+             */
+            $asset->save();
+            $assetId = $asset->id;
+
+            /**
+             * Resize and save the image as a thumbnail. Delete the other file.
+             */
+            $image = Image::getImagine();
+            $filenameFinal = $assetId . "." . $extension;
+            $fullFilePathFinal = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filenameFinal;
             $image
                 ->open($fullFilePath)
                 ->thumbnail(new Box(1200, 1200))
                 ->save($fullFilePathFinal, ['quality' => 70]);
-
             unlink($fullFilePath);
-            return [ "success" => true, "message" => ""];
+
+            return [ "success" => true, "message" => "", "assetId" => $assetId];
+
         } else {
             return [ "success" => false, "message" => "Failure to validate"];
         }
