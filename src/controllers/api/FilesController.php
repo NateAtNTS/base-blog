@@ -26,7 +26,7 @@ class FilesController extends ApiController
             $status = $model->upload();
 
             if ($status['success'] == true) {
-                return [ "success" => true, "assetId" => $status['assetId'] ];
+                return [ "success" => true, "assetId" => $status['assetId'], "elementId" => $status['elementId'] ];
             } else {
                 return [ "success" => false, "message" => $status["message"]];
             } // if model upload
@@ -35,7 +35,6 @@ class FilesController extends ApiController
             return [ "success" => false, "message" => "No post"];
         } // if bb app request
 
-        return true;
     } // function
 
 } // class

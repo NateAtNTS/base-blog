@@ -4,6 +4,7 @@ namespace bb\models\api;
 
 use Bb;
 use bb\helpers\HyiiHelper;
+use bb\models\PostElementsModel;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -92,7 +93,30 @@ class FileModel extends Model
                 ->save($fullFilePathFinal, ['quality' => 70]);
             unlink($fullFilePath);
 
-            return [ "success" => true, "message" => "", "assetId" => $assetId];
+            /**
+             * Make a new post element with this file
+             */
+            $newE = new PostElementsModel();
+
+            if (isset($post['postId'])) {
+                $newE->post = $post['postId'];
+            } else {
+                return [ "success" => false, "message" => "Could not create a new element for the picture because a post id was not given"];
+            }
+
+            if (isset($post['order'])) {
+                $newE->order = $post['order'];
+            } else {
+                return [ "success" => false, "message" => "Could not create a new element for the picture because a element order was not given"];
+            }
+
+            $newE->data = $assetId;
+            $newE->type = "picture";
+            $newE->save();
+            $elementId = $newE->id;
+
+
+            return [ "success" => true, "message" => "", "assetId" => $assetId, "elementId" => $elementId];
 
         } else {
             return [ "success" => false, "message" => "Failure to validate"];

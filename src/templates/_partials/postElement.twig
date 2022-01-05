@@ -29,11 +29,14 @@
 
         <div class="w-full h-auto flex p-8">
             <div class="m-auto flex flex-col">
-                <div class="mx-auto">
+                <div v-if="pageElements[elementId].data == ''" class="mx-auto">
                     <label class="cursor-pointer {% include "_styles/blueButton.twig" %}">
                         Select File to Upload.
                         <input class="ml-0 md:ml-4 hidden" type="file"  name="fileUpload" id="fileUpload" @change="handleFileUpload( $event, elementId )"/>
                     </label>
+                </div>
+                <div v-else class="mx-auto">
+                    <img :src="'{{ site_url }}file/view/' + pageElements[elementId].data" />
                 </div>
             </div>
         </div>
