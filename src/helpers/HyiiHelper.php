@@ -252,5 +252,18 @@ Class HyiiHelper {
         }
     }
 
+
+    public static function isUserLoggedIn()
+    {
+        Bb::$app->user->enableSession = true;
+        $user = UserHelper::loadUserInfo();
+
+        if ($user == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
 

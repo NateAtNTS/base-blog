@@ -182,7 +182,19 @@
                     .catch(function(){
                         console.log('FAILURE!!');
                     });
-                },
+                }, // function handle file upload
+                trashElement(elementIndex) {
+                    payload = {
+                        elementId: this.pageElements[elementIndex].id
+                    }
+
+                    axios.post("{{ site_url }}api/post/trash-element", payload).then( response => {
+                       if (response.data.success === true) {
+                           this.elementsOrder.splice(elementIndex, 1)
+                       }
+                   });
+
+                }, // function trash element
             },
             created() {},
         })

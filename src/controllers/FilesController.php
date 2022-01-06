@@ -25,8 +25,17 @@ class FilesController extends PrivateWebController
         if ($asset !== null) {
             $extension = $asset['type'];
         } else {
-            exit;
+            return;
         }
+
+        /**
+         * In order for Yii2 to do its proper cycle, you have to return. When I return here,
+         * the parent controller will redirect to the login screen.
+         */
+        if ($this->data['LoggedInUser'] == null) {
+            return;
+        }
+
 
         $filenameFinal = $assetId . "." . $extension;
         $fullFilePathFinal = $this->privateAssetPath . DIRECTORY_SEPARATOR . $filenameFinal;

@@ -3,6 +3,9 @@
         <div >{{ elementType }}</div>
         <div class="flex-auto"></div>
         <div class="px-2 flex">
+            <div class="px-2 flex cursor-pointer" @click="trashElement(index)">
+                {% include "_partials/trashIconSvg.twig" %}
+            </div>
             <div class="px-2 cursor-pointer">
                 <button :disabled="index === 0" @click.prevent="swapElements(index-1, index)">UP</button>
             </div>

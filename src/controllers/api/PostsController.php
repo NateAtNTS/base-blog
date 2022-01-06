@@ -8,6 +8,7 @@ use bb\helpers\UserHelper;
 use bb\models\api\Post;
 use bb\base\ApiController;
 use bb\models\PostModel;
+use bb\models\PostElementsModel;
 
 class PostsController extends ApiController
 {
@@ -66,16 +67,12 @@ class PostsController extends ApiController
      * @param $postId
      * @return array
      */
-    public function actionUpdate($postId) {
-
-        Bb::$app->user->enableSession = true;
-        $user = UserHelper::loadUserInfo();
-
-        if ($user == null) {
+    public function actionUpdate($postId)
+    {
+        if (HyiiHelper::isUserLoggedIn() == false) {
             return [
                 "success" => false,
-                "action" => "logout",
-                "user" => $user
+                "action" => "logout"
             ];
         } else {
 
@@ -92,6 +89,36 @@ class PostsController extends ApiController
 
         }
 
+    } // function action update
+
+
+    public function actionTrashElement()
+    {
+
+        if (HyiiHelper::isUserLoggedIn() == false) {
+            return [
+                "success" => false,
+                "action" => "logout"
+            ];
+        } else {
+
+            $post = HyiiHelper::getPost();
+
+            if (isset($post['elementId'])) {
+                $element = PostElementsModel::findOne($post['elementId']);
+
+
+                if ($element != null) {
+                    $element->trashed = 'Y';
+                    $element->save();
+                    return ["success" => true];
+                }
+            }
+        }
+        /**
+         * if I get here, something went wrong
+         */
+        return ["success" => false];
     }
 
 }
