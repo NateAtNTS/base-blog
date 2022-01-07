@@ -111,14 +111,53 @@ class PostsController extends ApiController
                 if ($element != null) {
                     $element->trashed = 'Y';
                     $element->save();
+
+                    /**
+                     * reorder the elements starting with 0
+                     */
+                    $elements = HyiiHelper::query()
+                        ->select("*")
+                        ->from("{{%post_elements}}")
+                        ->where("trashed = 'N'")
+                        ->andWhere("post = " . $post['postId'])
+                        ->orderBy("order ASC")
+                        ->all();
+
+                    if ($elements != null) {
+                        $i = 0;
+                        foreach ($elements as $element) {
+                            $e = PostElementsModel::findOne($element['id']);
+                            if ($e != null) {
+                                $e->order = $i;
+                                $e->save();
+                                $i++;
+                            }
+                        }
+                    }
+
                     return ["success" => true];
                 }
+
+
             }
         }
         /**
          * if I get here, something went wrong
          */
         return ["success" => false];
+    }
+
+    public function actionGetPost($postId)
+    {
+        if (HyiiHelper::isUserLoggedIn() == false) {
+            return [
+                "success" => false,
+                "action" => "logout"
+            ];
+        } else {
+            return [ "success" => true, "data" => PostModel::getPost($postId)];
+        }
+
     }
 
 }

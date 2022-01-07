@@ -184,13 +184,53 @@
                     });
                 }, // function handle file upload
                 trashElement(elementIndex) {
+
                     payload = {
-                        elementId: this.pageElements[elementIndex].id
+                        elementId: this.pageElements[elementIndex].id,
+                        postId: this.postId
                     }
 
                     axios.post("{{ site_url }}api/post/trash-element", payload).then( response => {
                        if (response.data.success === true) {
-                           this.elementsOrder.splice(elementIndex, 1)
+
+                           axios.get("{{ site_url }}api/post/get-post/" + this.postId).then (getResponse => {
+                               if (getResponse.data.success === true) {
+
+                                   console.log("get response")
+                                   console.log(getResponse.data.data.elements)
+
+                                   let newPageElements = {};
+                                   let newElementsOrder = [];
+                                   if (getResponse.data.data.hasOwnProperty("elements")) {
+                                       if (getResponse.data.data.elements.length > 0) {
+                                           let i = 0;
+                                           getResponse.data.data.elements.forEach( e => {
+
+                                               let obj = {
+                                                   type: e.type,
+                                                   data: e.data,
+                                                   elementId: i,
+                                                   order : i,
+                                                   render: false,
+                                                   id: e.id,
+                                                   post: {{ post.id }},
+                                               }
+                                               newPageElements[i] = obj;
+                                               newElementsOrder[i] = i;
+                                               i++
+                                           })
+                                        }
+                                   }
+                                   console.log("new page elements")
+                                   console.log(newPageElements)
+                                   console.log("new elements order")
+                                   console.log(newElementsOrder)
+                                   this.pageElements = newPageElements
+                                   this.elementsOrder = newElementsOrder
+                                   //this.$set(this.pageElements, newPageElements)
+                                   //this.$set(this.elementsOrder, newElementsOrder)
+                               }
+                           });
                        }
                    });
 

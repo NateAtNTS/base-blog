@@ -34,7 +34,8 @@ $config = [
                 'post/update/<postId:\d+>' => 'post/update',
                 'api/post/update/<postId:\d+>' => 'api/posts/update',
                 'file/view/<assetId:\d+>' => 'files/view',
-                'api/post/trash-element' => 'api/posts/trash-element'
+                'api/post/trash-element' => 'api/posts/trash-element',
+                'api/post/get-post/<postId:\d+>' => 'api/posts/get-post'
             ]
         ],
         'user' => [
