@@ -11,6 +11,17 @@ body {
 
 }
 
+@layer components {
+
+    div.vdp-datepicker > div > input {
+        @apply px-0 py-0 border-none bg-transparent cursor-pointer;
+        width:200px;
+    }
+
+}
+
+
+
 
 
 

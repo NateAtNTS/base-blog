@@ -24,6 +24,7 @@ class PostModel extends ActiveRecord {
         if ($post != null) {
             $p['id'] = $post->id;
             $p['title'] = $post->title;
+            $p['date'] = $post->date;
             $p['elements'] = static::getPostElements($postId);
         }
         return $p;
