@@ -25,6 +25,7 @@ class PostModel extends ActiveRecord {
             $p['id'] = $post->id;
             $p['title'] = $post->title;
             $p['date'] = $post->date;
+            $p['published'] = $post->published;
             $p['elements'] = static::getPostElements($postId);
         }
         return $p;
@@ -36,6 +37,7 @@ class PostModel extends ActiveRecord {
 
         if ($postToUpdate != null) {
             $postToUpdate->title = $post['title'];
+            $postToUpdate->published = $post['published'];
             $postToUpdate->save();
         }
 
