@@ -1,0 +1,9 @@
+
+
+{% if displayLoginForm == true %}
+
+    {% include "_partials/login_form.twig" %}
+
+{% else %}
+    {% block content %}{% endblock %}
+{% endif %}

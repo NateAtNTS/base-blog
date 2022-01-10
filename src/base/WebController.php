@@ -45,7 +45,7 @@ class WebController extends Controller
         $this->data['site_name'] = getenv("SITE_NAME");
 
         if ($this->template_dir == "app") {
-            $loader = new \Twig\Loader\FilesystemLoader(APP_TEMPLATES);
+            $loader = new \Twig\Loader\FilesystemLoader(Bb::getAlias('@frontendTemplatePath'));
         } else {
             $loader = new \Twig\Loader\FilesystemLoader($hyii_path . '/templates');
         }

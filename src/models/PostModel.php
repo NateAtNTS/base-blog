@@ -17,16 +17,44 @@ class PostModel extends ActiveRecord {
         return '{{%posts}}';
     }
 
-    public static function getPost($postId)
+    /**
+     * If frontend is true, then get the post with the requirements for displaying it on the frontend
+     *
+     * @param $postId
+     * @param false $frontend
+     * @return array
+     */
+    public static function getPost($postId,$frontend=false)
     {
-        $post = static::findOne($postId);
+        $p = [];
 
-        if ($post != null) {
-            $p['id'] = $post->id;
-            $p['title'] = $post->title;
-            $p['date'] = $post->date;
-            $p['published'] = $post->published;
-            $p['elements'] = static::getPostElements($postId);
+        if ($frontend == false) {
+            $post = static::findOne($postId);
+
+            if ($post != null) {
+                $p['id'] = $post->id;
+                $p['title'] = $post->title;
+                $p['date'] = $post->date;
+                $p['published'] = $post->published;
+                $p['elements'] = static::getPostElements($postId);
+            }
+
+        } else {
+            $post = HyiiHelper::query()
+                ->select("*")
+                ->from("{{%posts}}")
+                ->where("trashed = 'N'")
+                ->andWhere("published = 'Y'")
+                ->andWhere("id = $postId")
+                ->one();
+
+            if ($post != []) {
+                $p['id'] = $post["id"];
+                $p['title'] = $post["title"];
+                $p['date'] = $post['date'];
+                $p['published'] = $post['published'];
+                $p['elements'] = static::getPostElements($postId);
+            }
         }
         return $p;
     }
@@ -38,6 +66,8 @@ class PostModel extends ActiveRecord {
         if ($postToUpdate != null) {
             $postToUpdate->title = $post['title'];
             $postToUpdate->published = $post['published'];
+            $preppedDate = $post['date'] . " 00:00:00";
+            $postToUpdate->date = $preppedDate;
             $postToUpdate->save();
         }
 

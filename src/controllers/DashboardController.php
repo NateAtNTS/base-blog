@@ -5,19 +5,25 @@ namespace bb\controllers;
 use Bb;
 use bb\base\PrivateWebController;
 use bb\helpers\HyiiHelper;
+use bb\helpers\UserHelper;
 
 class DashboardController extends PrivateWebController {
 
     public function actionIndex() {
 
-        $this->data['posts'] = HyiiHelper::query()
-            ->select("*")
-            ->from("{{%posts}}")
-            ->where("trashed ='N'")
-            ->orderBy("date DESC")
-            ->all();
+        if (! UserHelper::isAdmin()) {
+            $this->redirect("/");
+        }
 
-        //Bb::dd($this->data);
+        if (UserHelper::isAdmin()) {
+            $this->data['posts'] = HyiiHelper::query()
+                ->select("*")
+                ->from("{{%posts}}")
+                ->where("trashed ='N'")
+                ->orderBy("date DESC")
+                ->all();
+        }
+
         return $this->renderTemplate("dashboard/dashboard.twig", $this->data);
     }
 

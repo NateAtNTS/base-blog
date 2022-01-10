@@ -72,6 +72,9 @@ if (getenv("SECURE_FILES_FOLDER") != "") {
     Bb::setAlias('@secure_files_folder', $secureAssetFolderPath);
 }
 
+$frontendTemplateFolder = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR;
+Bb::setAlias('@frontendTemplatePath', $frontendTemplateFolder);
+
 Bb::setAlias('@site_url', getenv('BASE_URL'));
 Bb::setAlias('@bb', HYII_SRC_PATH);
 $config = require CONFIG_FILE;

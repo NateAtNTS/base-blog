@@ -30,7 +30,15 @@
         </nav>
     </div>
 
-    <div id="updatePost">
+    <div id="updatePost" class="relative z-10">
+
+        <div v-if="showSavedMessage" class="absolute w-full" style="top:-60px;">
+            <div class="flex">
+                <div class=" bg-red-600 text-white font-bold px-4 py-2 m-auto">
+                    <p>Post Saved</p>
+                </div>
+            </div>
+        </div>
 
         <div class="flex w-full">
             <div class="mb-2">
@@ -38,11 +46,13 @@
                 {% include"_partials/adminPageHeading.twig" %}
             </div>
             <div class="flex-auto"></div>
-            <div class="pr-2">
-                <a class="{% include "_styles/blueButton.twig" %}" @click.prevent="savePost(true)">Save</a>
-            </div>
-            <div>
-                <a class="{% include "_styles/blueButton.twig" %}" @click.prevent="savePost()">Save & Exit</a>
+            <div class="flex flex-col md:flex-row">
+                <div class="mb-4 md:mb-0 pr-2">
+                    <a class="{% include "_styles/blueButton.twig" %}" @click.prevent="savePost(true)">Save</a>
+                </div>
+                <div>
+                    <a class="{% include "_styles/blueButton.twig" %}" @click.prevent="savePost()">Save & Exit</a>
+                </div>
             </div>
         </div>
 
@@ -153,9 +163,9 @@
                 elementsOrder : [{% if post.elements | length %}{% for e in post.elements %}{{ e.order }} {% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
                 title: `{{ post.title }}`,
                 postId: {{ post.id }},
-                tempDate: `{{ post.date }}`,
-                date: new Date(2016, 9,  16),
-                published: {% if post.published == 'N' %}false{% else %}true{% endif %}
+                date: new Date(Date.parse('{{ post.date }}')),
+                published: {% if post.published == 'N' %}false{% else %}true{% endif %},
+                showSavedMessage: false
             },
             methods: {
                 createElement(type) {
@@ -185,9 +195,11 @@
                     for (let i = 0; i<this.elementsOrder.length; i++) {
                         elements[i] = this.pageElements[i];
                     }
+                    let postDate = new Date(Date.parse(this.date))
                     postPayload = {
                         title: this.title,
                         published: this.published === true ? 'Y' : 'N',
+                        date: this.date.toISOString().split('T')[0],
                         elements: elements
                     }
                     console.log("post payload");
@@ -199,6 +211,12 @@
                                 // Remove navigation prompt
                                 window.onbeforeunload = null;
                                 location.href = "{{ site_url }}dashboard";
+                            } else {
+                                this.showSavedMessage = true
+
+                                setTimeout( () => {
+                                    this.showSavedMessage = false;
+                                }, 2000); // hide the message after 3 seconds
                             }
                         }
                     })
@@ -285,13 +303,11 @@
                             }
                         });
                     }
-
-
-
                 }, // function trash element
                 openPicker() {
                     this.$refs.datePickerComponent.showCalendar();
-                }, // functionopen picker
+                }, // function open picker
+
             },
             created() {},
         })

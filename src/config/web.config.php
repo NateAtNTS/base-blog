@@ -35,7 +35,13 @@ $config = [
                 'api/post/update/<postId:\d+>' => 'api/posts/update',
                 'file/view/<assetId:\d+>' => 'files/view',
                 'api/post/trash-element' => 'api/posts/trash-element',
-                'api/post/get-post/<postId:\d+>' => 'api/posts/get-post'
+                'api/post/get-post/<postId:\d+>' => 'api/posts/get-post',
+                'post/trash/<postId:\d+>' => 'post/trash/',
+                'site' => 'site/index',
+                'site/<postId:\d+>' => 'site/index',
+                'site/about' => 'site/about',
+                'site/login' => 'site/login',
+                'site/register' => 'site/register'
             ]
         ],
         'user' => [
@@ -55,7 +61,7 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
-    'defaultRoute' => 'hello/index'
+    'defaultRoute' => 'site'
 ];
 
 if (YII_ENV_DEV) {
