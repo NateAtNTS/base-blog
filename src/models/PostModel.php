@@ -36,6 +36,7 @@ class PostModel extends ActiveRecord {
                 $p['title'] = $post->title;
                 $p['date'] = $post->date;
                 $p['published'] = $post->published;
+                $p['preview'] = $post->preview;
                 $p['elements'] = static::getPostElements($postId);
             }
 
@@ -53,6 +54,7 @@ class PostModel extends ActiveRecord {
                 $p['title'] = $post["title"];
                 $p['date'] = $post['date'];
                 $p['published'] = $post['published'];
+                $p['preview'] = $post['preview'];
                 $p['elements'] = static::getPostElements($postId);
             }
         }
@@ -66,6 +68,7 @@ class PostModel extends ActiveRecord {
         if ($postToUpdate != null) {
             $postToUpdate->title = $post['title'];
             $postToUpdate->published = $post['published'];
+            $postToUpdate->preview = $post['preview'];
             $preppedDate = $post['date'] . " 00:00:00";
             $postToUpdate->date = $preppedDate;
             $postToUpdate->save();

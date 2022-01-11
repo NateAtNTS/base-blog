@@ -130,6 +130,7 @@ class Install extends Migration
             'section' => $this->integer(),
             'date' => $this->dateTime()->defaultExpression("CURRENT_TIMESTAMP"),
             'published' => "ENUM('Y','N') DEFAULT 'N'",
+            'preview' => $this->text(),
             'trashed' => "ENUM('Y','N','S') DEFAULT 'N'",
         ]);
     }

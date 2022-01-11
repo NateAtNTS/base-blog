@@ -87,6 +87,18 @@
         </div>
 
 
+        <div>
+            <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="preview">Post Preview Text</label>
+            <textarea
+                    class="{% include "_styles/textBox.twig" %}"
+                    id="preview"
+                    name="preview"
+                    v-model="preview"
+                    rows="5"
+            ></textarea>
+        </div>
+
+
         <div v-for="(elementId, index) in elementsOrder" :key="index" class="my-4">
             <div v-if="pageElements[elementId].type === 'heading'">
                 {% set elementType = "Heading" %}
@@ -165,6 +177,7 @@
                 postId: {{ post.id }},
                 date: new Date(Date.parse('{{ post.date }}')),
                 published: {% if post.published == 'N' %}false{% else %}true{% endif %},
+                preview: `{{ post.preview }}`,
                 showSavedMessage: false
             },
             methods: {
@@ -199,6 +212,7 @@
                     postPayload = {
                         title: this.title,
                         published: this.published === true ? 'Y' : 'N',
+                        preview: this.preview,
                         date: this.date.toISOString().split('T')[0],
                         elements: elements
                     }
