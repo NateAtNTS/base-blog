@@ -69,7 +69,7 @@ if (STARTER_APP == true) {
 } else {
     $secureAssetFolderPath = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . getenv("SECURE_FILES_FOLDER") . DIRECTORY_SEPARATOR;
 }
-$secureAssetFolderPath = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . getenv("SECURE_FILES_FOLDER") . DIRECTORY_SEPARATOR;
+
 if (getenv("SECURE_FILES_FOLDER") != "") {
     if (file_exists($secureAssetFolderPath) !== true) {
         mkdir($secureAssetFolderPath);
