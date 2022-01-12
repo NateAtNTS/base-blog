@@ -73,7 +73,7 @@ if (getenv("SECURE_FILES_FOLDER") != "") {
 }
 
 if (STARTER_APP == true) {
-    $frontendTemplateFolder = APP_TAPP_TEMPLATES;
+    $frontendTemplateFolder = APP_TEMPLATES;
 } else {
     $frontendTemplateFolder = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR;
 }
