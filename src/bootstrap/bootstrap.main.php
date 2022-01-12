@@ -65,7 +65,7 @@ if (getenv("PUBLIC_FILES_FOLDER") != "") {
 
 // secure files
 if (STARTER_APP == true) {
-    $secureAssetFolderPath = dirname(APP_TEMPLATES) . DIRECTORY_SEPARATOR . getenv("SECURE_FILES_FOLDER") . DIRECTORY_SEPARATOR;
+    $secureAssetFolderPath = dirname(PUBLIC_DIR) . DIRECTORY_SEPARATOR . getenv("SECURE_FILES_FOLDER") . DIRECTORY_SEPARATOR;
 } else {
     $secureAssetFolderPath = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . getenv("SECURE_FILES_FOLDER") . DIRECTORY_SEPARATOR;
 }
