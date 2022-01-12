@@ -72,7 +72,11 @@ if (getenv("SECURE_FILES_FOLDER") != "") {
     Bb::setAlias('@secure_files_folder', $secureAssetFolderPath);
 }
 
-$frontendTemplateFolder = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR;
+if (STARTER_APP == true) {
+    $frontendTemplateFolder = APP_TAPP_TEMPLATES;
+} else {
+    $frontendTemplateFolder = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR;
+}
 Bb::setAlias('@frontendTemplatePath', $frontendTemplateFolder);
 
 Bb::setAlias('@site_url', getenv('BASE_URL'));
