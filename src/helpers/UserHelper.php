@@ -13,6 +13,10 @@ Class UserHelper {
      */
     public static function isAdmin() {
 
+        if (Bb::$app->user->identity == null) {
+            return false;
+        }
+
         if (Bb::$app->user->identity->admin != "N") {
             return true;
         } else {
