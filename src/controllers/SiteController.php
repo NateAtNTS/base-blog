@@ -33,12 +33,25 @@ class SiteController extends WebController
         parent::__construct($id, $module, $config);
     }
 
-    public function actionIndex($postId=-1)
+    public function actionIndex()
     {
+        $this->data['posts'] = HyiiHelper::query()
+            ->select("*")
+            ->from("{{%posts}}")
+            ->where("trashed = 'N'")
+            ->andWhere("published = 'Y'")
+            ->orderBy("Date DESC")
+            ->all();
+
+        $this->data['template'] = "index.twig";
+        return $this->renderTemplate("index.twig", $this->data);
+    }
+
+
+    public function actionPost($postId=-1) {
 
         if ($postId == -1) {
-            $this->data['template'] = "index.twig";
-            return $this->renderTemplate("index.twig", $this->data);
+            $this->redirect("/site");
         } else {
 
             $post = PostModel::getPost($postId, true);
