@@ -27,6 +27,9 @@
         <div class="pb-8">
             <form class="mb-24" method="post" id="userUpdateForm">
 
+                <input id="prevent_autofill" type="text" style="display:none;" value="" name="prevent_autofill" />
+                <input id="password_fake" type="password" style="display:none;" value="" name="password_fake"/>
+
                 <!-- UserModel ID -->
                 <input type="hidden" name="id" value="{{ user.id }}" />
 

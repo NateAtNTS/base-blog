@@ -48,30 +48,7 @@ class UserController extends PrivateWebController
     {
         UserHelper::logoutIfNotAdmin($this);
 
-        /**
-         * Check to see if there is a post and handle it if there is
-         */
-        if (HyiiHelper::isPost('id')) {
-            $currentUser = UserModel::findOne($id);
-            $updatedUser = HyiiHelper::getPost();
-
-            if (isset($updatedUser['password_no_auto_complete'])) {
-                $updatedUser['password'] = $updatedUser['password_no_auto_complete'];
-                unset($updatedUser['password_no_auto_complete']);
-            }
-
-            if (isset($updatedUser['password'])) {
-                if ($updatedUser['password'] != "") {
-                    $updatedUser['password'] = Bb::$app->getSecurity()->generatePasswordHash($updatedUser['password']);
-                } else {
-                    unset($updatedUser['password']);
-                }
-            }
-            $currentUser->attributes = $updatedUser;
-            $currentUser->save();
-            $this->data['userUpdated'] = true;
-
-        }
+        $this->updateUser($id);
 
         $user = UserHelper::loadUserInfo($id);
 
@@ -117,14 +94,9 @@ class UserController extends PrivateWebController
         if (HyiiHelper::isPost("firstName")) {
             $post = HyiiHelper::getPost();
             $id = $post['id'];
-            $status = static::updateUser();
+            $this->updateUser($id);
             $this->data['userUpdated'] = true;
-            if ($status) {
-                $this->data['userUpdateStatus'] = true;
-            } else {
-                $this->data['userUpdateStatus'] = false;
-            }
-
+            $this->data['userUpdateStatus'] = true;
             $this->data['user'] = UserHelper::loadUserInfo($id);
 
         } else {
@@ -173,14 +145,37 @@ class UserController extends PrivateWebController
         $this->redirect("/user/list");
     }
 
-    private static function updateUser()
+    private function updateUser($id)
     {
 
-        $user = new UserModel();
-        if ($user->load(Bb::$app->request->post(), '') && $user->updateUser()) {
-            return true;
-        } else {
-            return false;
+        /**
+         * Check to see if there is a post and handle it if there is
+         */
+        if (HyiiHelper::isPost('id')) {
+            $currentUser = UserModel::findOne($id);
+            $updatedUser = HyiiHelper::getPost();
+
+            if (isset($updatedUser['prevent_autofill'])) {
+                unset($updatedUser['prevent_autofill']);
+                unset($updatedUser['password_fake']);
+            }
+
+            if (isset($updatedUser['password_no_auto_complete'])) {
+                $updatedUser['password'] = $updatedUser['password_no_auto_complete'];
+                unset($updatedUser['password_no_auto_complete']);
+            }
+
+            if (isset($updatedUser['password'])) {
+                if ($updatedUser['password'] != "") {
+                    $updatedUser['password'] = Bb::$app->getSecurity()->generatePasswordHash($updatedUser['password']);
+                } else {
+                    unset($updatedUser['password']);
+                }
+            }
+            $currentUser->attributes = $updatedUser;
+            $currentUser->save();
+            $this->data['userUpdated'] = true;
+
         }
     }
 
