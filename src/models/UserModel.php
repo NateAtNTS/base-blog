@@ -114,6 +114,11 @@ class UserModel extends ActiveRecord implements IdentityInterface
 
             $updatedUser = Bb::$app->request->post();
 
+            if (isset($updatedUser['password_no_auto_complete'])) {
+                $updatedUser['password'] = $updatedUser['password_no_auto_complete'];
+                unset($updatedUser['password_no_auto_complete']);
+            }
+
             if (isset($updatedUser['password'])) {
                 $updatedUser['password'] = Bb::$app->getSecurity()->generatePasswordHash($updatedUser['password']);
             }

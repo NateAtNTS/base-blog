@@ -54,6 +54,12 @@ class UserController extends PrivateWebController
         if (HyiiHelper::isPost('id')) {
             $currentUser = UserModel::findOne($id);
             $updatedUser = HyiiHelper::getPost();
+
+            if (isset($updatedUser['password_no_auto_complete'])) {
+                $updatedUser['password'] = $updatedUser['password_no_auto_complete'];
+                unset($updatedUser['password_no_auto_complete']);
+            }
+
             if (isset($updatedUser['password'])) {
                 if ($updatedUser['password'] != "") {
                     $updatedUser['password'] = Bb::$app->getSecurity()->generatePasswordHash($updatedUser['password']);
