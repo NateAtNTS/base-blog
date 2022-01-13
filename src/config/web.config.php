@@ -41,7 +41,8 @@ $config = [
                 'post/<postId:\d+>' => 'site/post',
                 'site/about' => 'site/about',
                 'site/login' => 'site/login',
-                'site/register' => 'site/register'
+                'site/register' => 'site/register',
+                'admin/login' => 'login',
             ]
         ],
         'user' => [
