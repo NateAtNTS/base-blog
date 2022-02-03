@@ -1,15 +1,13 @@
 // tailwind.config.js
 
-
 module.exports = {
-    mode: "jit",
-    purge: {
-        content: [
-            "./templates/**/*.html",
-            "./templates/**/*.twig",
-            "./src/js/theme.js",
-        ]
-    },
+    content: [
+        "./src/templates/**/*.html",
+        "./src/templates/**/*.twig",
+        "./src/js/theme.js",
+        "./templates/**/*.html",
+        "./templates/**/*.twig",
+    ],
     theme: {
         screens: {
             sm: "640px",
