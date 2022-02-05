@@ -3,6 +3,7 @@
 namespace bb\base;
 
 use bb\helpers\HyiiHelper;
+use bb\helpers\UserHelper;
 use yii\web\Controller;
 use bb\helpers\HyiiHelper as Helper;
 use Bb;
@@ -43,6 +44,9 @@ class WebController extends Controller
         }
 
         $this->data['site_name'] = getenv("SITE_NAME");
+
+        $this->data['isAdmin'] = UserHelper::isAdmin();
+        $this->data['LoggedInUser'] = $user = UserHelper::loadUserInfo();
 
         if ($this->template_dir == "app") {
             $loader = new \Twig\Loader\FilesystemLoader(Bb::getAlias('@frontendTemplatePath'));

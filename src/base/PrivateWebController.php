@@ -15,10 +15,6 @@ class PrivateWebController extends WebController {
 
         Bb::$app->user->enableSession = true;
 
-        $this->data['LoggedInUser'] = $user = UserHelper::loadUserInfo();
-
-        $this->data['isAdmin'] = UserHelper::isAdmin();
-
         if ($user == null) {
             
             if (Bb::$app->requestedRoute == 'user/check-username/') {                
