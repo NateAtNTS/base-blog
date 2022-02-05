@@ -101,14 +101,27 @@ if (defined('STARTER_APP') === true) {
         $BASE_BLOG_STYLES = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'cpresources' . DIRECTORY_SEPARATOR . 'cp.css';
         $BASE_BLOG_JS = $BASE_BLOG_PUBLIC . DIRECTORY_SEPARATOR . 'cpresources' . DIRECTORY_SEPARATOR . 'cp.js';
 
-        if (sha1_file($STARTER_STYLES) != sha1_file($BASE_BLOG_STYLES)) {
-            unlink($STARTER_STYLES);
+        /**
+         * Older versions will not have this new cpresources folder. If they don't, then create it and copy the styles.
+         *
+         * If they do have the folder, check to see if the styles need to be updated.
+         */
+        $STARTER_STYLES_DIR = PUBLIC_DIR . DIRECTORY_SEPARATOR . 'cpresources';
+        if (file_exists($STARTER_STYLES_DIR) != true) {
+            mkdir($STARTER_STYLES_DIR, 0775, true);
             copy($BASE_BLOG_STYLES, $STARTER_STYLES);
-        }
-
-        if (sha1_file($STARTER_JS) != sha1_file($BASE_BLOG_JS)) {
-            unlink($STARTER_JS);
             copy($BASE_BLOG_JS, $STARTER_JS);
+        } else {
+
+            if (sha1_file($STARTER_STYLES) != sha1_file($BASE_BLOG_STYLES)) {
+                unlink($STARTER_STYLES);
+                copy($BASE_BLOG_STYLES, $STARTER_STYLES);
+            }
+
+            if (sha1_file($STARTER_JS) != sha1_file($BASE_BLOG_JS)) {
+                unlink($STARTER_JS);
+                copy($BASE_BLOG_JS, $STARTER_JS);
+            }
         }
     }
 }
