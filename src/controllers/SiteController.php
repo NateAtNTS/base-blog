@@ -76,6 +76,11 @@ class SiteController extends WebController
 
     public function actionLogin()
     {
+
+        if (HyiiHelper::isUserLoggedIn()) {
+            $this->redirect("/");
+        }
+
         $model = new LoginForm();
 
         /**
