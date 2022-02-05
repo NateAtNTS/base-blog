@@ -91,7 +91,12 @@ class SiteController extends WebController
             /**
              * check to see if the post is sharing a template to use. if it isn't, then use the login template
              */
+            $template = "";
             if (isset($post['template'])) {
+                $template = $post['template'];
+            }
+
+            if ($template != "") {
                 $template = $post['template'];
             } else {
                 $template = "login.twig";
