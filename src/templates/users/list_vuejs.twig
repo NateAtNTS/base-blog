@@ -56,9 +56,9 @@
             },
             approveUser() {
                 if (this.ApprovalType === "approve") {
-                    location.href = "{{ site_url }}user/approval/yes/" + this.ApprovalUserId
+                    location.href = "{{ site_url }}admin/user/approval/yes/" + this.ApprovalUserId
                 } else {
-                    location.href = "{{ site_url }}user/approval/no/" + this.ApprovalUserId
+                    location.href = "{{ site_url }}admin/user/approval/no/" + this.ApprovalUserId
                 }
             },
         },

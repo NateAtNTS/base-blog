@@ -1,6 +1,6 @@
 <?php
 
-namespace bb\controllers;
+namespace bb\controllers\admin;
 
 use Bb;
 use bb\base\PrivateWebController;
@@ -30,7 +30,7 @@ class PostController extends PrivateWebController
         $this->data['post'] = $post = PostModel::getPost($postId);
 
         if ($post == null) {
-            $this->redirect("/dashboard");
+            $this->redirect("/admin/dashboard");
         }
 
         return $this->renderTemplate("post/update.twig", $this->data);
@@ -49,7 +49,7 @@ class PostController extends PrivateWebController
             $post->save();
         }
 
-        $this->redirect("/dashboard");
+        $this->redirect("/admin/dashboard");
     }
 
 }

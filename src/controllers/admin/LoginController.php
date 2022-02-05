@@ -1,11 +1,13 @@
 <?php
 
-namespace bb\controllers;
+namespace bb\controllers\admin;
 
 use Bb;
 use bb\base\WebController;
 use bb\helpers\HyiiHelper;
+use bb\helpers\UserHelper;
 use bb\models\LoginForm;
+use yii\web\User;
 
 class LoginController extends WebController {
 
@@ -26,6 +28,11 @@ class LoginController extends WebController {
      */
     public function actionIndex()
     {
+
+        if ((HyiiHelper::isUserLoggedIn()) && (UserHelper::isAdmin())) {
+            $this->redirect("admin/dashboard");
+        }
+
         $model = new LoginForm();
 
         if (empty($_POST)) {
@@ -37,7 +44,7 @@ class LoginController extends WebController {
 
             $user = Bb::$app->user->identity;
 
-            $this->redirect("/dashboard/");
+            $this->redirect("/admin/dashboard");
 
         } else {
             return $this->renderTemplate("login/login_form.twig", ["error" => "Login Failed"]);

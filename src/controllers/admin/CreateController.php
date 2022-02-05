@@ -1,6 +1,6 @@
 <?php
 
-namespace bb\controllers;
+namespace bb\controllers\admin;
 
 use Bb;
 use bb\base\PrivateWebController;

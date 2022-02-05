@@ -41,7 +41,7 @@
                 <div>
                     <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
                         <ol class="list-none flex text-grey-dark p-0">
-                            <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                            <li><a class="no-underline text-gray-600 font-bold" href="/admin/dashboard">Dashboard</a></li>
                             <li class="mx-2">/</li>
                             <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
                             <li class="mx-2">/</li> -->
@@ -113,7 +113,7 @@
                     <div class="flex">
                         <div class="flex-auto"><h2 class="uppercase">Users List</h2></div>
                         <div class="flex-shrink my-auto">
-                            <a class="no-underline text-black" href="{{ site_url }}user/add/">
+                            <a class="no-underline text-black" href="{{ site_url }}admin/user/add/">
                                 <svg class="fill-current hover:text-gray-700" xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 24 24" width="32px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
                             </a>
                         </div>
@@ -124,7 +124,7 @@
                         v-for="(user,index) in users"
                         :key="'user-'+index"
                         class="no-underline text-black"
-                        :href="'{{ site_url }}user/update/' + user.id"
+                        :href="'{{ site_url }}admin/user/update/' + user.id"
                     >
                         <div
                                 class="flex py-4 px-2 hover:bg-blue-300 cursor-pointer"

@@ -5,4 +5,4 @@ vendor/
 /src/runtime/
 /src/admin_panel/node_modules
 secure_files
-public/assets/web/
+public/assets

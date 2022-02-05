@@ -1,6 +1,6 @@
 <?php
 
-namespace bb\controllers;
+namespace bb\controllers\admin;
 
 use Bb;
 use bb\base\WebController;
@@ -20,7 +20,7 @@ class LogoutController extends WebController {
     public function actionIndex()
     {
         Bb::$app->user->logout();
-        $this->redirect("/login");
+        $this->redirect("/admin/login");
     }
 
 }

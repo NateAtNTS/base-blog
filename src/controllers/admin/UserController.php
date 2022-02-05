@@ -1,6 +1,6 @@
 <?php
 
-namespace bb\controllers;
+namespace bb\controllers\admin;
 
 use Bb;
 use bb\helpers\HyiiHelper;
@@ -29,7 +29,7 @@ class UserController extends PrivateWebController
             //Bb::dd($_POST);
 
             if ($user->load(Bb::$app->request->post(), '') && $user->add()) {
-                $this->redirect("/user/list");
+                $this->redirect("/admin/user/list");
             }
         } else {
             $this->data['user']['id'] = "";
@@ -61,7 +61,7 @@ class UserController extends PrivateWebController
             /**
              * Since the user was not found, redirect back to the user list
              */
-            $this->redirect("/user/list");
+            $this->redirect("/admin/user/list");
         }
     }
 
@@ -142,7 +142,7 @@ class UserController extends PrivateWebController
             }
             $user->save();
         }
-        $this->redirect("/user/list");
+        $this->redirect("/admin/user/list");
     }
 
     private function updateUser($id)

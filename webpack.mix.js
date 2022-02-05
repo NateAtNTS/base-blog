@@ -15,8 +15,8 @@ mix
             "public/assets/js/theme.js"
         ]
     })
-    .js("src/mix/js/theme.js", "public/assets/js")
-    .postCss("src/mix/css/theme.css", "public/assets/css", [    require("tailwindcss")("tailwind.config.js"),  ])
+    .js("src/mix/cp.js", "public/cpresources/")
+    .postCss("src/mix/cp.css", "public/cpresources/", [    require("tailwindcss")("tailwind.config.js"),  ])
 
 // versioning in Production only
 if (mix.inProduction()) {

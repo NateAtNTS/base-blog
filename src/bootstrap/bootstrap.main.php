@@ -58,7 +58,7 @@ require HYII_SRC_PATH . 'Bb.php';
 $publicAssetFolderPath = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . getenv("PUBLIC_FILES_FOLDER") . DIRECTORY_SEPARATOR;
 if (getenv("PUBLIC_FILES_FOLDER") != "") {
     if (file_exists($publicAssetFolderPath) !== true) {
-        mkdir($publicAssetFolderPath);
+        mkdir($publicAssetFolderPath,0775, true);
     }
     Bb::setAlias('@public_asset_folder_path', $publicAssetFolderPath);
 }

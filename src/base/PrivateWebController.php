@@ -29,7 +29,7 @@ class PrivateWebController extends WebController {
                 ]);
                 
             } else {
-                $this->redirect("/login");
+                $this->redirect("/admin/login");
             }
             
         }

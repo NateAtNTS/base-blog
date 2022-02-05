@@ -21,7 +21,7 @@
     <div>
         <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
             <ol class="list-none flex text-grey-dark p-0">
-                <li><a class="no-underline text-gray-600 font-bold" href="/dashboard">Dashboard</a></li>
+                <li><a class="no-underline text-gray-600 font-bold" href="/admin/dashboard">Dashboard</a></li>
                 <li class="mx-2">/</li>
                 <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
                 <li class="mx-2">/</li> -->
@@ -224,7 +224,7 @@
                             if (stayOnPage === false) {
                                 // Remove navigation prompt
                                 window.onbeforeunload = null;
-                                location.href = "{{ site_url }}dashboard";
+                                location.href = "{{ site_url }}admin/dashboard";
                             } else {
                                 this.showSavedMessage = true
 

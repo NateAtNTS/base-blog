@@ -76,7 +76,7 @@ var app = new Vue({
             payload = {
                 "username" : this.usernameNew
             }    
-            axios.post("{{ site_url }}user/check-username/",payload).then(response => {                
+            axios.post("{{ site_url }}admin/user/check-username/",payload).then(response => {
                 if (response.data.success === false) {
                     if (response.data.message === "logout") {
                         location.href = "{{ site_url }}logout";

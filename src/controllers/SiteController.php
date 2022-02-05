@@ -122,4 +122,12 @@ class SiteController extends WebController
 
     } // function login
 
+
+    public function actionLogout()
+    {
+        Bb::$app->user->logout();
+        $this->redirect("/");
+
+    }
+
 }
