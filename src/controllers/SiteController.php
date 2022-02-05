@@ -51,13 +51,13 @@ class SiteController extends WebController
     public function actionPost($postId=-1) {
 
         if ($postId == -1) {
-            $this->redirect("/site");
+            $this->redirect("/");
         } else {
 
             $post = PostModel::getPost($postId, true);
 
             if ($post == null) {
-                $this->redirect("/site");
+                $this->redirect("/");
             } else {
 
                 $this->data['post'] = $post;
@@ -117,7 +117,7 @@ class SiteController extends WebController
              */
             $this->data['template'] = "_partials/login_form.twig";
              $this->data['returnUrl'] = $this->data['site_url'];
-            return $this->renderTemplate("_partials/login_form.twig", $this->data);
+            return $this->renderTemplate("login.twig", $this->data);
         }
 
     } // function login
