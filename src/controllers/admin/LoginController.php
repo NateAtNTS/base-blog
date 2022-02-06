@@ -30,7 +30,7 @@ class LoginController extends WebController {
     {
 
         if ((HyiiHelper::isUserLoggedIn()) && (UserHelper::isAdmin())) {
-            $this->redirect("admin/dashboard");
+            $this->redirect("/admin/dashboard");
         }
 
         $model = new LoginForm();

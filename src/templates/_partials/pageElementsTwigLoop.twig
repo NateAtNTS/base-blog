@@ -3,7 +3,6 @@
     id: {{ e.id }},
     post: {{ post.id }},
     type: `{{ e.type }}`,
-    elementId: {{ e.order }},
     order: {{ e.order }},
     data: `{{ e.data | raw }}`,
     } {% if not loop.last %},{% endif %}

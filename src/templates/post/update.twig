@@ -18,20 +18,14 @@
         }
     </style>
 
-    <div>
-        <nav class="block text-sm text-left text-gray-600 h-12 flex items-center rounded-md">
-            <ol class="list-none flex text-grey-dark p-0">
-                <li><a class="no-underline text-gray-600 font-bold" href="/admin/dashboard">Dashboard</a></li>
-                <li class="mx-2">/</li>
-                <!-- <li><a class="no-underline text-gray-600 font-bold" href="#">Library</a></li>
-                <li class="mx-2">/</li> -->
-                <li class="">Update Post</li>
-            </ol>
-        </nav>
-    </div>
+    {% set breadcrumbs = {
+        SecondLevel : { Label: 'Update Post', Link: ''}
+    } %}
+    {% include "_partials/breadcrumbs.twig" %}
 
     <div id="updatePost" class="relative z-10">
 
+        {# Post Saved - Message #}
         <div v-if="showSavedMessage" class="absolute w-full" style="top:-60px;">
             <div class="flex">
                 <div class=" bg-red-600 text-white font-bold px-4 py-2 m-auto">
@@ -99,24 +93,45 @@
         </div>
 
 
-        <div v-for="(elementId, index) in elementsOrder" :key="index" class="my-4">
-            <div v-if="pageElements[elementId].type === 'heading'">
+        <div v-for="(element, elementId) in pageElements" :key="'element-'+elementId" class="my-4">
+            <div v-if="element.type === 'heading'">
                 {% set elementType = "Heading" %}
                 {% include "_partials/postElement.twig" %}
             </div>
-            <div v-if="pageElements[elementId].type === 'editor'">
+            <div v-if="element.type === 'editor'">
                 {% set elementType = "Editor" %}
                 {% include "_partials/postElement.twig" %}
             </div>
 
-            <div v-if="pageElements[elementId].type === 'picture'">
+            <div v-if="element.type === 'picture'">
                 {% set elementType = "Picture" %}
                 {% include "_partials/postElement.twig" %}
             </div>
 
         </div>
 
-        {% include "_partials/addElementBar.twig" %}
+        <div class="flex my-4">
+            <div
+                    class="px-4 py-2 mr-2 cursor-pointer font-bold bg-blue-300 border-blue-800"
+                    @click="createElement('heading')"
+            >
+                + Heading
+            </div>
+
+            <div
+                    class="px-4 py-2 mr-2 cursor-pointer font-bold bg-blue-300 border-blue-800"
+                    @click="createElement('editor')"
+            >
+                + Editor
+            </div>
+
+            <div
+                    class="px-4 py-2 mr-2 cursor-pointer font-bold bg-blue-300 border-blue-800"
+                    @click="createElement('picture')"
+            >
+                + Picture
+            </div>
+        </div>
 
 
 
@@ -143,7 +158,6 @@
         window.onbeforeunload = function() {
             return true;
         };
-
 
         let updatePostApp = new Vue({
             name: 'updatePost',
@@ -172,7 +186,6 @@
                 },
                 pageElements: { {% include "_partials/pageElementsTwigLoop.twig" %} },
                 objectIndex: {{ post.elements | length }},
-                elementsOrder : [{% if post.elements | length %}{% for e in post.elements %}{{ e.order }} {% if not loop.last %},{% endif %}{% endfor %}{% endif %}],
                 title: `{{ post.title }}`,
                 postId: {{ post.id }},
                 date: new Date(Date.parse('{{ post.date }}')),
@@ -182,7 +195,7 @@
             },
             methods: {
                 createElement(type) {
-                    this.$set(this.pageElements, this.objectIndex, {
+                    this.$set(this.pageElements, Object.keys(this.pageElements).length, {
                         type: type,
                         data: ``,
                         elementId: this.objectIndex,
@@ -191,30 +204,42 @@
                         id: -1,
                         post: {{ post.id }},
                     })
-                    this.elementsOrder.push(this.objectIndex)
-                    this.objectIndex++
                 },
-                swapElements(a,b) {
-                    let c = this.elementsOrder[b]
-                    let d = this.elementsOrder[a]
-                    this.pageElements[a].order = c
-                    this.pageElements[b].order = d
-                    this.elementsOrder.splice(a,1, c)
-                    this.elementsOrder.splice(b,1, d)
+                swapElements(elementId, direction) {
+
+                    console.log("direction: " + direction)
+                    let otherEl = -1
+                    let currentEl = elementId
+                    if (direction === 'up') {
+                        otherEl = elementId - 1
+                    } else {
+                        otherEl = parseInt(elementId) + 1
+                    }
+
+                    console.log("other el " + otherEl)
+                    console.log("current el " + currentEl)
+                    let tempObj = this.pageElements[otherEl]
+
+                    let otherObjectOrder = this.pageElements[otherEl].order
+                    console.log(this.pageElements[otherEl].data + " original order " + otherObjectOrder)
+
+                    let currentObjectOrder = this.pageElements[currentEl].order
+                    console.log(this.pageElements[currentEl].data + " original order " + currentObjectOrder)
+
+                    this.pageElements[otherEl] = this.pageElements[currentEl]
+                    this.pageElements[otherEl].order = otherObjectOrder
+
+                    this.pageElements[currentEl] = tempObj
+                    this.pageElements[currentEl].order = currentObjectOrder
+
                 },
                 savePost(stayOnPage = false) {
-                    let postPayload = [];
-                    let elements = [];
-                    for (let i = 0; i<this.elementsOrder.length; i++) {
-                        elements[i] = this.pageElements[i];
-                    }
-                    let postDate = new Date(Date.parse(this.date))
-                    postPayload = {
-                        title: this.title,
-                        published: this.published === true ? 'Y' : 'N',
-                        preview: this.preview,
-                        date: this.date.toISOString().split('T')[0],
-                        elements: elements
+                    let postPayload = {
+                            title: this.title,
+                            published: this.published === true ? 'Y' : 'N',
+                            preview: this.preview,
+                            date: this.date.toISOString().split('T')[0],
+                            elements: this.pageElements
                     }
                     console.log("post payload");
                     console.log(JSON.stringify(postPayload))
@@ -226,8 +251,9 @@
                                 window.onbeforeunload = null;
                                 location.href = "{{ site_url }}admin/dashboard";
                             } else {
-                                this.showSavedMessage = true
 
+                                this.reloadElements()
+                                this.showSavedMessage = true
                                 setTimeout( () => {
                                     this.showSavedMessage = false;
                                 }, 2000); // hide the message after 3 seconds
@@ -263,10 +289,37 @@
                         console.log('FAILURE!!');
                     });
                 }, // function handle file upload
+                reloadElements() {
+                    axios.get("{{ site_url }}api/post/get-post/" + this.postId).then (getResponse => {
+                        if (getResponse.data.success === true) {
+                            let newPageElements = {};
+                            if (getResponse.data.data.hasOwnProperty("elements")) {
+                                if (getResponse.data.data.elements.length > 0) {
+                                    let i = 0;
+                                    getResponse.data.data.elements.forEach( e => {
+
+                                        let obj = {
+                                            type: e.type,
+                                            data: e.data,
+                                            elementId: i,
+                                            order : i,
+                                            render: false,
+                                            id: e.id,
+                                            post: {{ post.id }},
+                                        }
+                                        newPageElements[i] = obj;
+                                        i++
+                                    })
+                                }
+                            }
+                            this.pageElements = newPageElements
+                        }
+                    });
+                },
                 trashElement(elementIndex) {
 
                     if (this.pageElements[elementIndex].id === -1) {
-                        alert("You cannot trash an element that has not been saved yet.")
+                        Vue.delete(this.pageElements, elementIndex)
                     } else {
                         payload = {
                             elementId: this.pageElements[elementIndex].id,
@@ -275,45 +328,7 @@
 
                         axios.post("{{ site_url }}api/post/trash-element", payload).then( response => {
                             if (response.data.success === true) {
-
-                                axios.get("{{ site_url }}api/post/get-post/" + this.postId).then (getResponse => {
-                                    if (getResponse.data.success === true) {
-
-                                        console.log("get response")
-                                        console.log(getResponse.data.data.elements)
-
-                                        let newPageElements = {};
-                                        let newElementsOrder = [];
-                                        if (getResponse.data.data.hasOwnProperty("elements")) {
-                                            if (getResponse.data.data.elements.length > 0) {
-                                                let i = 0;
-                                                getResponse.data.data.elements.forEach( e => {
-
-                                                    let obj = {
-                                                        type: e.type,
-                                                        data: e.data,
-                                                        elementId: i,
-                                                        order : i,
-                                                        render: false,
-                                                        id: e.id,
-                                                        post: {{ post.id }},
-                                                    }
-                                                    newPageElements[i] = obj;
-                                                    newElementsOrder[i] = i;
-                                                    i++
-                                                })
-                                            }
-                                        }
-                                        console.log("new page elements")
-                                        console.log(newPageElements)
-                                        console.log("new elements order")
-                                        console.log(newElementsOrder)
-                                        this.pageElements = newPageElements
-                                        this.elementsOrder = newElementsOrder
-                                        //this.$set(this.pageElements, newPageElements)
-                                        //this.$set(this.elementsOrder, newElementsOrder)
-                                    }
-                                });
+                                this.reloadElements()
                             }
                         });
                     }

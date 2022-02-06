@@ -28,6 +28,10 @@ $config = [
             'ruleConfig' => [
                 'class' => yii\web\UrlRule::class
             ],
+            'normalizer' => [
+                // this does a permanent redirect on trailing slashes
+                'class' => 'yii\web\UrlNormalizer',
+            ],
             'rules' => [
                 'admin/user/approval/<type:\w+>/<id:\d+>' => 'admin/user/approval',
                 'admin/user/update/<id:\d+>' => 'admin/user/update',
@@ -43,7 +47,7 @@ $config = [
                 'logout' => 'site/logout',
                 'register' => 'register',
                 'admin/login' => 'admin/login',
-                'admin' => '/admin/login',
+                'admin' => 'admin/login',
             ]
         ],
         'user' => [
