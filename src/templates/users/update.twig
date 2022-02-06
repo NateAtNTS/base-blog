@@ -17,7 +17,7 @@
             </div>
 
             <div class="pb-4 {% if userUpdated == true %}mt-8{% endif %}">
-                <h2>Update User</h2>
+                <h2 class="{% include "_styles/mainHeading.twig" %}">Update User</h2>
             </div>
 
             {% if userUpdated == true %}
@@ -117,7 +117,7 @@
                     {% if user.admin != "S" %}
 
                     <!-- Password -->
-                    <div class="mb-8">
+                    <div class="relative mb-8">
                         <label class="block text-gray-700 text-sm font-bold uppercase mb-2" for="password">Password</label>
                         <input
                                 @keyup="validateField('password',password)"
@@ -128,6 +128,17 @@
                                 v-model="password"
                                 autocomplete="off"
                         />
+
+                        <div class="absolute bottom-5.5 right-3">
+                            <a class="cursor-pointer" @click="toggleVisibility('password')">
+                                <span v-if="showPassword === false">
+                                    {% include "_icons/visible_eye.twig" %}
+                                </span>
+                                <span v-if="showPassword === true">
+                                    {% include "_icons/hidden_eye.twig" %}
+                                </span>
+                            </a>
+                        </div>
 
                         <p class="text-gray-600 text-xs italic">At Least: Length 8, 2 Capitals, 2 Numbers, 1 ! @ # $ &, 3 lowercase</p>
                     </div>

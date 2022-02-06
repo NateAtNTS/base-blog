@@ -25,7 +25,7 @@ class CreateController extends PrivateWebController {
             $blogPost->section = $post['section'];
             $blogPost->save();
             $newPostId = $blogPost->id;
-            $this->redirect("/post/update/$newPostId");
+            $this->redirect("admin/post/update/$newPostId");
         }
 
         /**

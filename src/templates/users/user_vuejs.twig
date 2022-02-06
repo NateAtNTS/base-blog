@@ -30,6 +30,7 @@ var app = new Vue({
         showUsernameError: false,
         usernameCheckFailed: true,
         showCheckUsernameBtn : true,
+        showPassword: false,
     },    
     methods: {    
         validateField: function(fieldName, value) {
@@ -112,6 +113,13 @@ var app = new Vue({
             this.usernameValidated = false;
             this.usernameCheckFailed = false;
             this.showCheckUsernameBtn = true;
+        },
+
+        toggleVisibility(id) {
+            let el = document.querySelector("#" + id);
+            const type = el.getAttribute('type') === 'password' ? 'text' : 'password';
+            el.setAttribute('type', type);
+            this.showPassword = ! this.showPassword;
         },
 
         submitForm() {
